@@ -1,13 +1,6 @@
 import { mapper } from '../../helpers/DynamoDBMapper';
 import { User } from './users.model';
 
-/**
- * The services contains the database queries and returning objects or throwing errors
- *
- * @export
- * @class UserService
- */
-export class UserService {
 
     /**
      * Get a user from the database by uid
@@ -18,7 +11,7 @@ export class UserService {
      * @return {*} 
      * @memberof UserService
      */
-    async getUser(uid: string) {
+    export const getUser = async (uid: string) =>  {
         try {
             return await mapper.get(Object.assign(new User, {uid}))
         } catch (e) {
@@ -34,7 +27,7 @@ export class UserService {
      * @return {*} 
      * @memberof UserService
      */
-    async putUser(user: any) {
+    export const putUser = async (user: any) =>  {
         try {
             const toPut = Object.assign(new User, user);
             console.log(toPut);
@@ -44,4 +37,3 @@ export class UserService {
             throw Error('Error while creating User')
         }
     }
-}

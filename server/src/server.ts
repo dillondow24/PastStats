@@ -1,28 +1,27 @@
-import { UserController } from './api/routes/users/users.controller';
+import { Request, Response } from 'express';
 var bodyParser = require('body-parser')
-import { createExpressServer } from 'routing-controllers';
-
+const express = require('express')
+const app = express()
 const PORT = process.env.PORT || 8080;
+const cors = require('cors');
+
+const users = require('./api/modules/users/users.controller');
+
+
+
 
 console.info(`Starting server on http://localhost:${PORT}`);
 
-const routes: any[] = [
-  UserController
-];
-
-const app = createExpressServer(
-    {
-        controllers: routes,
-        cors: {
-            //TODO: (note: don't use '*' in production)
-            origin: PORT,
-        }
-    }
-);
-
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }))
 // parse application/json
 app.use(bodyParser.json())
+// cors
+app.use(cors({
+    //TODO: (note: don't use '*' in production)
+    origin: PORT,
+}));
+// add routes for controllers
+app.use('/users', users);
 
 app.listen(PORT);
+
+console.info(`Starting server on http://localhost:${PORT}`);

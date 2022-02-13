@@ -123,7 +123,7 @@
     "src/**/*.ts",
     "src/**/*.json",
     ".env" 
-, "src/api/routes/users/users.dynamoDB.ts"  ],
+, "src/api/modules/users/users.dynamoDB.ts"  ],
   "exclude": [
     "node_modules"
   ]
