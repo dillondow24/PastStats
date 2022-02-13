@@ -34,11 +34,10 @@ export class UserController {
     @Post('putUser')
     async putUser(@Body() body: any, @Req() request: any, @Res() response: any) {
         try {
-            console.log('body: ', body);
-            console.log('request.body: ', request);
             await this.userService.putUser(body)
             response.status(200).json({
                 status: 200,
+                data: {BODY: body},
                 message: 'Successfully Put User'
             })
         } catch (error) {
