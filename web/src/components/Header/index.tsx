@@ -1,38 +1,37 @@
-import { Button, Typography } from '@mui/material'
-import React from 'react'
-import { API } from '../../api';
-import { User } from '../../model/user';
-
-
-// Example POST method implementation:
-async function createUser() {
-
-  // material-ui/docs/data/material/getting-started/templates/dashboard/
-  
-  const newUser: User = {
-    uid: "*3456789886cb0155-6802-4f32-8b18-baf9ece506e576",
-    timestamp: new Date().valueOf(),
-    username: "newUser",
-    email: "test@email.com",
-    phone: "123-456-7890"
-  }
-
-  const response = await API.UserAPI.createUser(newUser);
-  console.log('response: ', response);
-}
+import { useTheme } from '@mui/material';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Toolbar from '@mui/material/Toolbar';
+import * as React from 'react';
+import PastStatsLogo from '../PastStatsLogo';
+import HeaderProfileMenu from './HeaderProfileMenu';
+import HeaderTabs from './HeaderTabs';
+import { useStyles } from './styles';
 
 
 /**
- * Component for the header of the application.
+ * header component for the website with logo, tabs, and profile menu
  *
- * @export
  * @return {*} 
  */
-export default function Header() {
+const Header = () => {
+    const theme = useTheme();
+    const styles = useStyles(theme);
 
-  return (
-    <div>
-      <Button variant='contained' onClick={createUser}>Create User</Button>
-    </div>
-  )
-}
+    return (
+      <AppBar position="static" color='default'>
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <Box sx={styles.logoContainer}>
+              <PastStatsLogo />
+            </Box>
+            <HeaderTabs />
+            <HeaderProfileMenu />
+          </Toolbar>
+        </Container>
+      </AppBar>
+    );
+};
+
+export default Header;
