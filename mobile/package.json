@@ -6,10 +6,12 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
+    "setup": "cp ../.env ./ && yarn install",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "dotenv": "^16.0.0",
     "react": "17.0.2",
     "react-native": "0.67.2"
   },

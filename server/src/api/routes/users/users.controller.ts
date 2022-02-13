@@ -1,3 +1,4 @@
+import { Console } from 'console';
 import 'reflect-metadata';
 import { Body, Get, JsonController, Params, Post, Req, Res } from 'routing-controllers';
 import { UserService } from "./users.service";
@@ -12,9 +13,7 @@ import { UserService } from "./users.service";
 @JsonController('/users/')
 export class UserController {
 
-    constructor(
-        private readonly userService: UserService
-    ) { }
+    userService = new UserService();
 
     /**
      * Get a user by uid from the database
@@ -23,7 +22,7 @@ export class UserController {
      * @param {*} response
      * @memberof UserController
      */
-    @Get('user/:uid')
+    @Get('getUser/:uid')
     async getUserByUid(@Params() params: any, @Res() response: any) {
         try {
             const {uid} = params;
@@ -53,9 +52,10 @@ export class UserController {
     @Post('putUser')
     async putUser(@Body() body: any, @Req() req: any, @Res() res: any) {
         try {
+            const user = await this.userService.putUser(body)
             res.status(200).json({
                 status: 200,
-                data: {BODY: body},
+                data: user,
                 message: 'Successfully Put User'
             })
         } catch (error) {

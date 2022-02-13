@@ -8,22 +8,15 @@ import { User } from './users.model';
  * @class UserService
  */
 export class UserService {
-
     /**
      * Get a user from the database by uid
      *
-     * @param {*} query
-     * @param {*} page
-     * @param {*} limit
-     * @return {*} 
+     * @param {string} uid
+     * @return {User} 
      * @memberof UserService
      */
     async getUser(uid: string) {
-        try {
-            return await mapper.get(Object.assign(new User, {uid}))
-        } catch (e) {
-            throw Error('Error while retrieving User')
-        }
+        return await mapper.get(Object.assign(new User, {uid}))
     }
 
 
@@ -35,13 +28,8 @@ export class UserService {
      * @memberof UserService
      */
     async putUser(user: any) {
-        try {
-            const toPut = Object.assign(new User, user);
-            console.log(toPut);
-            return
-            // return await mapper.put(toPut)
-        } catch (e) {
-            throw Error('Error while creating User')
-        }
+        const toPut = Object.assign(new User, user)
+        await mapper.put(toPut);
+        return toPut;
     }
 }

@@ -3,7 +3,7 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import logo from './logo.svg';
+import logo from './assets/images/logo.svg';
 import './App.css';
 import Header from './components/Header';
 

@@ -9,13 +9,20 @@ import {
     table,
 } from '@aws/dynamodb-data-mapper-annotations';
 
-@table('past-stats-development-users')
+/**
+ * The User model
+ *
+ * @export
+ * @class User
+ */
+@table('users-table')
 export class User {
     @hashKey()
     uid: string;
 
-    @rangeKey({defaultProvider: () => new Date().valueOf()})
-    timestamp: string;
+    // @rangeKey({defaultProvider: () => new Date().valueOf()})
+    @attribute({defaultProvider: () => new Date().valueOf()})
+    timestamp: number;
 
     @attribute()
     username: string;

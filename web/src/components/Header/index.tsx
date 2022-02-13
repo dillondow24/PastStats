@@ -1,26 +1,22 @@
 import { Button, Typography } from '@mui/material'
 import React from 'react'
+import { API } from '../../api';
+import { User } from '../../model/user';
 
 
 // Example POST method implementation:
 async function createUser() {
-  const payload = {
-    "uid": "3456789876",
-    "timestamp": "12345497565453",
-    "username": "dillondow24",
-    "email": "dillondow24@gmail.com",
-    "phone": "6037077709"
+
+  const newUser: User = {
+    uid: "*3456789886cb0155-6802-4f32-8b18-baf9ece506e576",
+    timestamp: new Date().valueOf(),
+    username: "newUser",
+    email: "test@email.com",
+    phone: "123-456-7890"
   }
-  const body = JSON.stringify(payload)
-  const response = await fetch('http://localhost:8080/users/putUser', {
-    body, // body data type must match "Content-Type" header
-    method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    headers: {
-      'Content-Type': 'application/json'
-    },
-  });
-  const data = await response.json(); // parses JSON response into native JavaScript objects
-  console.log('Data Response: ', data);
+
+  const response = await API.UserAPI.createUser(newUser);
+  console.log('response: ', response);
 }
 
 

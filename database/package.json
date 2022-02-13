@@ -1,0 +1,23 @@
+{
+  "name": "database",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cd dynamodb_local && java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb",
+    "setup": "cp ../.env ./ && yarn install",
+    "reset:db": "cd tables && yarn delete-tables && yarn create-tables && yarn populate-tables",
+    "create-tables": "cd tables && node create-tables.js",
+    "delete-tables": "cd tables && node delete-tables.js",
+    "populate-tables": "cd tables && node populate-tables.js"
+  },
+  "keywords": [],
+  "author": "DillonDow",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1073.0",
+    "dotenv": "^16.0.0"
+  }
+  
+}
