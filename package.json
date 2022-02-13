@@ -1,0 +1,15 @@
+{
+  "name": "PastStats",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:mobile": "cd mobile && yarn ios",
+    "dev:web": "cd web && yarn start",
+    "backend": "cd server && yarn start"
+  },
+  "keywords": [],
+  "author": "DillonDow",
+  "license": "ISC"
+}
