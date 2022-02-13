@@ -1,17 +1,28 @@
-/** 
+import 'reflect-metadata';
+import { Body, Get, JsonController, Params, Post, Req, Res } from 'routing-controllers';
+import { UserService } from "./users.service";
+
+/**
  * The controllers handles all the logic behind validating 
  * request parameters, query, Sending Responses with correct codes.
+ *
+ * @export
+ * @class UserController
  */
-
-import { UserService } from "./users.service"
-import { Body, Controller, Get, Params, Post, Put, QueryParam, Req, Res } from 'routing-controllers';
-import 'reflect-metadata';
-import { User } from "./users.model";
-
-@Controller('/users/')
+@JsonController('/users/')
 export class UserController {
-    userService = new UserService();
 
+    constructor(
+        private readonly userService: UserService
+    ) { }
+
+    /**
+     * Get a user by uid from the database
+     *
+     * @param {*} params
+     * @param {*} response
+     * @memberof UserController
+     */
     @Get('user/:uid')
     async getUserByUid(@Params() params: any, @Res() response: any) {
         try {
@@ -31,17 +42,24 @@ export class UserController {
         }
     }
 
+    /**
+     * Put a user in the database
+     *
+     * @param {*} body
+     * @param {*} req
+     * @param {*} res
+     * @memberof UserController
+     */
     @Post('putUser')
-    async putUser(@Body() body: any, @Req() request: any, @Res() response: any) {
+    async putUser(@Body() body: any, @Req() req: any, @Res() res: any) {
         try {
-            await this.userService.putUser(body)
-            response.status(200).json({
+            res.status(200).json({
                 status: 200,
                 data: {BODY: body},
                 message: 'Successfully Put User'
             })
         } catch (error) {
-            response.sendStatus(500).json({
+            res.sendStatus(500).json({
                 status: 500,
                 data: error,
                 message: 'Error While Putting User'
