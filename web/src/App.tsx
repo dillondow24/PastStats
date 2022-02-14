@@ -22,7 +22,7 @@ function App() {
       <CssBaseline />
       <Header/>
       <Container maxWidth='lg'>
-        <Box sx={{ mt: theme.spacing(1), bgcolor: '#cfe8fc', minHeight: '100vh' }}>
+        <Box sx={{ mt: 1, minHeight: '80vh' }}>
           <Routes>
             <Route path="/" element={<Games />} />
             <Route path="Games" element={<Games />} />

@@ -20,7 +20,7 @@ const Header = () => {
     const styles = useStyles(theme);
 
     return (
-      <AppBar position="static" color='default'>
+      <AppBar position="static" color='primary'>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Box sx={styles.logoContainer}>

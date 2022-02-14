@@ -4,13 +4,16 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
+import PastStatsLogo from '../PastStatsLogo';
+import { useTheme } from '@mui/material';
+import { useStyles } from './styles';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary">
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="https://github.com/dillondow24/PastStats">
+        PastStats
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -19,25 +22,22 @@ function Copyright() {
 }
 
 export default function Footer() {
-  return (
-    <Box
-      component="footer"
-      sx={{
-        py: 3,
-        px: 2,
-        mt: 'auto',
-        backgroundColor: (theme) =>
-          theme.palette.mode === 'light'
-            ? theme.palette.grey[200]
-            : theme.palette.grey[800],
-      }}
-    >
-      <Container maxWidth="sm">
-        <Typography variant="body1">
-          My sticky footer can be found here.
-        </Typography>
-        <Copyright />
-      </Container>
-    </Box>
-  )
+    const theme = useTheme();
+    const styles = useStyles(theme);
+
+    return (
+      <Box
+        component="footer"
+        sx={styles.root}
+      >
+        <Container maxWidth="lg">
+          <Box sx={styles.container}>
+            <Box sx={styles.logoContainer}>
+              <PastStatsLogo full/>
+            </Box>
+              <Copyright />
+          </Box> 
+        </Container>
+      </Box>
+    )
 }

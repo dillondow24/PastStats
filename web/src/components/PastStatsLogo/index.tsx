@@ -1,12 +1,33 @@
 import { Avatar } from '@mui/material'
 import React from 'react'
 
-function PastStatsLogo() {
+interface Props {
+  /**
+   * if true render the full logo
+   *
+   * @type {boolean}
+   * @memberof Props
+   */
+  full?: boolean
+}
+
+function PastStatsLogo({full}: Props) {
+
+  if(full){
+    return (
+      <Avatar  
+          src={require('../../assets/images/logo_full_primary.png')}
+          alt="PastStats"
+          variant="rounded"
+      />
+    )
+  }
+
   return (
-    <Avatar  
-        src={'../../../assets/images/logo_icon_primary.png'}
+    <img  
+        src={require('../../assets/images/logo_icon_primary.png')}
         alt="PastStats"
-        variant="rounded"
+        style={{height: 45, width: 45}}
     />
   )
 }
