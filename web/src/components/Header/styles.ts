@@ -13,12 +13,15 @@ export const useStyles = (theme: Theme) => ({
     },
     logoContainer: { 
         mr: 2, 
-        display: { xs: 'none', md: 'flex' }
+        display: { xs: 'none', md: 'flex' },
+        width: 165,
     },
     tabsContainer: {
         flex: 1,
-        // mb: -2
     },
     profileContainer: {
+        width: 165,
+        display: 'flex',
+        justifyContent: 'flex-end',
     }
 }) as {[style: string]: SxProps<Theme>};

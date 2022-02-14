@@ -9,9 +9,7 @@ import './App.css';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import Games from './routes/Games';
-import Login from './routes/Login';
 import Profile from './routes/Profile';
-import SignUp from './routes/SignUp';
 import Teams from './routes/Teams';
 
 function App() {
@@ -28,8 +26,6 @@ function App() {
             <Route path="Games" element={<Games />} />
             <Route path="Teams" element={<Teams />} />
             <Route path="Profile" element={<Profile />} />
-            <Route path="Login" element={<Login />} />
-            <Route path="SignUp" element={<SignUp />} />
           </Routes>
         </Box>
       </Container>

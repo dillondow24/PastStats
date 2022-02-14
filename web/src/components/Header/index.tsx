@@ -5,6 +5,7 @@ import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
 import * as React from 'react';
 import PastStatsLogo from '../PastStatsLogo';
+import HeaderAuthenticationButtons from './HeaderAuthenticationButtons';
 import HeaderProfileMenu from './HeaderProfileMenu';
 import HeaderTabs from './HeaderTabs';
 import { useStyles } from './styles';
@@ -19,6 +20,8 @@ const Header = () => {
     const theme = useTheme();
     const styles = useStyles(theme);
 
+    const isAuthenticated = true;
+
     return (
       <AppBar position="static" color='primary' sx={styles.root} >
         <Box sx={styles.logoContainer}>
@@ -30,7 +33,7 @@ const Header = () => {
         </Box>
 
         <Box sx={styles.profileContainer}>
-          <HeaderProfileMenu />
+          {isAuthenticated ? <HeaderProfileMenu /> : <HeaderAuthenticationButtons />}
         </Box>
       </AppBar>
     );

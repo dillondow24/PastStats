@@ -3,7 +3,7 @@ import { SxProps, Theme } from "@mui/material";
 export const useStyles = (theme: Theme) => ({
     logoContainer: { 
         flexGrow: 1, 
-        display: { xs: 'flex', md: 'none' } 
+        display: { xs: 'flex', md: 'none' },
     },
     menu: {
         display: { xs: 'block', md: 'none' },
