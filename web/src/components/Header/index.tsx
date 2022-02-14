@@ -20,16 +20,18 @@ const Header = () => {
     const styles = useStyles(theme);
 
     return (
-      <AppBar position="static" color='primary'>
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <Box sx={styles.logoContainer}>
-              <PastStatsLogo />
-            </Box>
-            <HeaderTabs />
-            <HeaderProfileMenu />
-          </Toolbar>
-        </Container>
+      <AppBar position="static" color='primary' sx={styles.root} >
+        <Box sx={styles.logoContainer}>
+          <PastStatsLogo />
+        </Box>
+
+        <Box sx={styles.tabsContainer}>
+          <HeaderTabs />
+        </Box>
+
+        <Box sx={styles.profileContainer}>
+          <HeaderProfileMenu />
+        </Box>
       </AppBar>
     );
 };

@@ -35,13 +35,7 @@ export default function HeaderTabs() {
         setAnchorElNav(event.currentTarget);
     };
 
-
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
-    };
-
-
-    const handleChange = (event: any, newValue: number) => {
+    const handleChange = (event: any) => {
         getCurrentTab();
         handleOpenNavMenu(event);
     };
@@ -67,7 +61,7 @@ export default function HeaderTabs() {
                 <Tabs value={getCurrentTab()} onChange={handleChange} centered>
                     {pages.map((page, index) => {
                         return (
-                            <Tab key={index} label={page.label} onClick={() => navigate(page.to)}/>
+                            <Tab key={index} label={page.label} onClick={() => navigate(page.to)} sx={styles.tab}/>
                         )
                     })}
                 </Tabs>
@@ -77,7 +71,7 @@ export default function HeaderTabs() {
 
     const renderMobileView = () => {
         return (
-            <>
+            <Box sx={styles.mobileViewRootContainer}>
                 <Box sx={styles.mobileViewRoot}>
                     <IconButton
                     size="large"
@@ -102,11 +96,15 @@ export default function HeaderTabs() {
                         horizontal: 'left',
                     }}
                     open={Boolean(anchorElNav)}
-                    onClose={handleCloseNavMenu}
+                    onClose={() => setAnchorElNav(null)}
                     sx={styles.menu}
                     >
                     {pages.map((page) => (
-                        <MenuItem key={page.label} onClick={handleCloseNavMenu}>
+                        <MenuItem key={page.label} onClick={() => {
+                                navigate(page.to)
+                                setAnchorElNav(null)
+                            }
+                        }>
                             <Typography textAlign="center">{page.label}</Typography>
                         </MenuItem>
                     ))}
@@ -116,7 +114,7 @@ export default function HeaderTabs() {
                 <Box sx={styles.logoContainer}>
                     <PastStatsLogo />
                 </Box>
-            </>
+            </Box>
         )
     }
 
