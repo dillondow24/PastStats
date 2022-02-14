@@ -19,6 +19,7 @@ function PastStatsLogo({full}: Props) {
           src={require('../../assets/images/logo_full_primary.png')}
           alt="PastStats"
           variant="rounded"
+          sx={{objectFit: 'contain'}}
       />
     )
   }
@@ -27,7 +28,7 @@ function PastStatsLogo({full}: Props) {
     <img  
         src={require('../../assets/images/logo_icon_primary.png')}
         alt="PastStats"
-        style={{height: 45, width: 45}}
+        style={{height: 45, width: 45, objectFit: 'contain'}}
     />
   )
 }

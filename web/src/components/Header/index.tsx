@@ -20,7 +20,7 @@ const Header = () => {
     const theme = useTheme();
     const styles = useStyles(theme);
 
-    const isAuthenticated = true;
+    const isAuthenticated = false;
 
     return (
       <AppBar position="static" color='primary' sx={styles.root} >
