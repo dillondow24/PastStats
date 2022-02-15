@@ -9,5 +9,6 @@ export interface User {
     timestamp: number;
     username: string;
     email: string;
-    phone: string;
+    phone: string; 
+    avatar: string;
 }

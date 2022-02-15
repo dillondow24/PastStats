@@ -28,7 +28,7 @@ const createTable = async (dynamodb) => {
         if (err) {
             console.error(`Unable to create ${TableName} table. Error JSON:`, JSON.stringify(err, null, 2));
         } else {
-            console.log(`Created ${TableName} table. Table description JSON:`, JSON.stringify(data, null, 2));
+            console.log(`Created ${TableName} table. Table description JSON`);
         }
     });
 }
@@ -65,7 +65,7 @@ const deleteTable = async (dynamodb) => {
     if (err) {
         console.error(`Unable to delete ${TableName} table. Error JSON:`, JSON.stringify(err, null, 2));
     } else {
-        console.log(`Deleted table. ${TableName} Table description JSON:`, JSON.stringify(data, null, 2));
+        console.log(`Deleted table. ${TableName} Table description JSON`);
     }
 });
 }

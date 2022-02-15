@@ -8,27 +8,25 @@ import { verifyPassword } from '../../utils/verifyPassword';
 import GoogleAuthenticationButton from '../GoogleAuthenticationButton';
 import { useStyles } from './styles';
 
+interface Props {
+  onSubmit: () => void;
+}
 
-export default function SignUp() {
+export default function SignUp({onSubmit}: Props) {
     const theme = useTheme();
     const styles = useStyles(theme);
 
     const {handleSignUp} = useUserContext();
     
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [accept, setAccept] = useState(false);
-    const [passwordError, setPasswordError] = useState<Error | null>(null);
+    const [error, setError] = useState<Error | null>(null);
 
-    const handleChangeFirstName = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFirstName(event.target.value);
-    }
-
-    const handleChangeLastName = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setLastName(event.target.value);
+    const handleChangeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setUsername(event.target.value);
     }
 
     const handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,15 +50,15 @@ export default function SignUp() {
 
       try {
         verifyPassword(password)
-        handleSignUp(firstName, lastName, email, phone, password);
-        setPasswordError(null);
+        handleSignUp(username, email, phone, password);
+        setError(null);
+        onSubmit();
       } catch (error: any){
-        setPasswordError(error);
+        setError(error);
       }
     };
 
-
-    const disableSignUp = firstName === '' || lastName === '' || !email.includes('@') || phone === '' ||  password === '' || !accept;
+    const disableSignUp = username === '' || !email.includes('@') || phone === '' ||  password === '' || !accept;
 
     return (
         <Box sx={styles.root}>
@@ -79,29 +77,16 @@ export default function SignUp() {
 
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  variant='filled'
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                  onChange={handleChangeFirstName}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
                   variant='filled'
                   required
                   fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                  onChange={handleChangeLastName}
+                  id="username"
+                  label="Username"
+                  name="username"
+                  autoComplete="username"
+                  onChange={handleChangeUsername}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -115,16 +100,8 @@ export default function SignUp() {
                   autoComplete="email"
                   onChange={handleChangeEmail}
                 />
-                <TextField
-                  variant='filled'
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  onChange={handleChangeEmail}
-                />
+              </Grid>
+              <Grid item xs={12}>
                 <TextField
                   variant='filled'
                   required
@@ -133,8 +110,7 @@ export default function SignUp() {
                   label="Phone Number"
                   name="phone"
                   autoComplete="phone"
-                  onChange={handleChangeEmail}
-                />
+                  onChange={handleChangePhone}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -171,7 +147,7 @@ export default function SignUp() {
             >
               Sign Up
             </Button>
-            {passwordError ? <Typography align='center' variant="body2" color="error">{passwordError.message}</Typography> : null}
+            {error ? <Typography align='center' variant="body2" color="error">{error.message}</Typography> : null}
           </Box>
         </Box>
     );

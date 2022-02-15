@@ -8,14 +8,17 @@ import { verifyPassword } from '../../utils/verifyPassword';
 import GoogleAuthenticationButton from '../GoogleAuthenticationButton';
 import { useStyles } from './styles';
 
+interface Props {
+  onSubmit: () => void;
+}
 
-export default function Login() {
+export default function Login({onSubmit}: Props) {
     const theme = useTheme();
     const styles = useStyles(theme);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [passwordError, setPasswordError] = useState<Error | null>(null);
+    const [error, setError] = useState<Error | null>(null);
 
     const {handleLogin} = useUserContext();
 
@@ -32,9 +35,10 @@ export default function Login() {
       try {
         verifyPassword(password)
         handleLogin(email, password);
-        setPasswordError(null);
+        setError(null);
+        onSubmit();
       } catch (error: any){
-        setPasswordError(error);
+        setError(error);
       }
     };
 
@@ -78,7 +82,7 @@ export default function Login() {
               variant="filled"
               onChange={handleChangePassword}
             />
-            {passwordError ? <Typography align='center' variant="body2" color="error">{passwordError.message}</Typography> : null}
+            {error ? <Typography align='center' variant="body2" color="error">{error.message}</Typography> : null}
             <Button
               type="submit"
               fullWidth

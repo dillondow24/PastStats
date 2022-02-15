@@ -32,5 +32,8 @@ export class User {
 
     @attribute()
     phone: string;
+
+    @attribute()
+    avatar?: string;
 }
 

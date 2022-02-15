@@ -54,7 +54,7 @@ export default function AuthenticationButtons() {
             open={Boolean(anchorElLogin)}
             onClose={handleCloseLoginMenu}
           >
-            <Login />
+            <Login onSubmit={handleCloseLoginMenu}/>
           </Menu>
 
         <Menu
@@ -66,7 +66,7 @@ export default function AuthenticationButtons() {
             open={Boolean(anchorElSignUp)}
             onClose={handleCloseSignUpMenu}
           >
-            <SignUp />
+            <SignUp onSubmit={handleCloseSignUpMenu}/>
           </Menu>
       </Box>
     )
