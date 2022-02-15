@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
 import * as React from 'react';
+import { useUserContext } from '../../contexts/userContext';
 import PastStatsLogo from '../PastStatsLogo';
 import HeaderAuthenticationButtons from './HeaderAuthenticationButtons';
 import HeaderProfileMenu from './HeaderProfileMenu';
@@ -20,7 +21,9 @@ const Header = () => {
     const theme = useTheme();
     const styles = useStyles(theme);
 
-    const isAuthenticated = false;
+    const {isAuthenticated} = useUserContext();
+
+    console.log('Header.isAuthenticated:', isAuthenticated);
 
     return (
       <AppBar position="static" color='primary' sx={styles.root} >

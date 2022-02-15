@@ -2,7 +2,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {
   Avatar, Box, Button, Checkbox, Divider, FormControlLabel, Grid, Link, TextField, Typography, useTheme
 } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
+import { useUserContext } from '../../contexts/userContext';
+import { verifyPassword } from '../../utils/verifyPassword';
 import GoogleAuthenticationButton from '../GoogleAuthenticationButton';
 import { useStyles } from './styles';
 
@@ -11,17 +13,54 @@ export default function SignUp() {
     const theme = useTheme();
     const styles = useStyles(theme);
 
+    const {handleSignUp} = useUserContext();
+    
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [password, setPassword] = useState('');
+    const [accept, setAccept] = useState(false);
+    const [passwordError, setPasswordError] = useState<Error | null>(null);
+
+    const handleChangeFirstName = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFirstName(event.target.value);
+    }
+
+    const handleChangeLastName = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setLastName(event.target.value);
+    }
+
+    const handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(event.target.value);
+    }
+
+    const handleChangePhone = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPhone(event.target.value);
+    }
+
+    const handleChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(event.target.value);
+    }
+
+    const handleChangeAccept = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setAccept(event.target.checked);
+    }
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      const data = new FormData(event.currentTarget);
-      // eslint-disable-next-line no-console
-      console.log({
-        email: data.get('email'),
-        password: data.get('password'),
-      });
+
+      try {
+        verifyPassword(password)
+        handleSignUp(firstName, lastName, email, phone, password);
+        setPasswordError(null);
+      } catch (error: any){
+        setPasswordError(error);
+      }
     };
 
+
+    const disableSignUp = firstName === '' || lastName === '' || !email.includes('@') || phone === '' ||  password === '' || !accept;
 
     return (
         <Box sx={styles.root}>
@@ -50,6 +89,7 @@ export default function SignUp() {
                   id="firstName"
                   label="First Name"
                   autoFocus
+                  onChange={handleChangeFirstName}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -61,6 +101,7 @@ export default function SignUp() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  onChange={handleChangeLastName}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -72,6 +113,28 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  onChange={handleChangeEmail}
+                />
+                <TextField
+                  variant='filled'
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  onChange={handleChangeEmail}
+                />
+                <TextField
+                  variant='filled'
+                  required
+                  fullWidth
+                  id="phone"
+                  label="Phone Number"
+                  name="phone"
+                  autoComplete="phone"
+                  onChange={handleChangeEmail}
+                />
                 />
               </Grid>
               <Grid item xs={12}>
@@ -84,11 +147,12 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  onChange={handleChangePassword}
                 />
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel 
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
+                  control={<Checkbox value="acceptTermsAndConditions" color="primary" onChange={handleChangeAccept} checked={accept} />}
                   label={
                     <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
                       <Typography sx={{mr: 1}}>I Accept the </Typography>
@@ -103,9 +167,11 @@ export default function SignUp() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={disableSignUp}
             >
               Sign Up
             </Button>
+            {passwordError ? <Typography align='center' variant="body2" color="error">{passwordError.message}</Typography> : null}
           </Box>
         </Box>
     );
