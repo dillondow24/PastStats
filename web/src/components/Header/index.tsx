@@ -23,8 +23,6 @@ const Header = () => {
 
     const {isAuthenticated} = useUserContext();
 
-    console.log('Header.isAuthenticated:', isAuthenticated);
-
     return (
       <AppBar position="static" color='primary' sx={styles.root} >
         <Box sx={styles.logoContainer}>

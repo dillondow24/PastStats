@@ -14,10 +14,12 @@ export default function GoogleAuthenticationButton({signUp}: Props) {
     const styles = useStyles(theme);
 
     const handleLogin = () => {
+      //TODO: add login with google
       console.log('login with google')
     }
 
     const handleSignUp = () => {
+      //TODO: add sign up with google
       console.log('sign up with google')
     }
 

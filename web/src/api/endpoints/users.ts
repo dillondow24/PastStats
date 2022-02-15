@@ -8,7 +8,6 @@ export const UserAPI = {
         if(response.status === 200) {
             return await response.json() as User;
         } else {
-            console.log('response.statusText: ', response.statusText)
             throw new Error(response.statusText)
         }
     },
@@ -22,7 +21,6 @@ export const UserAPI = {
         if(response.status === 200) {
             return await response.json() as User;
         } else {
-            console.log('response.statusText: ', response.statusText)
             throw new Error(response.statusText)
         }
     }

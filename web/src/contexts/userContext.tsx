@@ -29,8 +29,10 @@ export const UserContextProvider = ({children}: any) => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
+    if(!user){
+      handleLogin('dillondow24@gmail.com ', 'password');
+    }
       //TODO: remove when cognito is implemented
-    handleLogin('dillondow24', 'password');
   }, [])
   
   const handleLogin = async (email: string, password: string) => {
