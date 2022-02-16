@@ -14,7 +14,7 @@ export const useStyles = (theme: Theme) => ({
         },
         border: `1px solid ${theme.palette.background.paper}`
     },
-    teamContainer: {
+    container: {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',

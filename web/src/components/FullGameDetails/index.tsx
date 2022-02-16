@@ -1,7 +1,7 @@
 import { Box, Typography, useTheme } from '@mui/material';
 import React from 'react';
 import { SportRadarNBAGame } from '../../model/sportradar/NBAGame';
-import GamePreviewCard from '../GamePreviewCard';
+import { DailyScheduleGamePreview } from '../DailyScheduleGamePreview';
 import { useStyles } from './styles';
 
 interface Props {

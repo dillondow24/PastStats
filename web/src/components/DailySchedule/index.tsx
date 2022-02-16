@@ -1,15 +1,9 @@
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import {
-  Avatar, Box, Button, Divider, Grid, Link, Tab, Tabs, TextField, Typography, useTheme
-} from '@mui/material';
+import { Tab, Tabs, useTheme } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { API } from '../../api';
-import { useUserContext } from '../../contexts/userContext';
 import { SportRadarNBAGame } from '../../model/sportradar/NBAGame';
-import { verifyPassword } from '../../utils/verifyPassword';
+import { DailyScheduleGamePreview } from '../DailyScheduleGamePreview';
 import FullGameDetails from '../FullGameDetails';
-import GamePreviewCard from '../GamePreviewCard';
-import GoogleAuthenticationButton from '../GoogleAuthenticationButton';
 import { useStyles } from './styles';
 
 interface Props {
@@ -53,7 +47,7 @@ export default function DailySchedule({year, month, day}: Props) {
         {games.map((game, index) => (
             <Tab 
               component={() => (
-                  <GamePreviewCard game={game}  onClick={() => setValue(index)} selected={index === value}/>
+                  <DailyScheduleGamePreview game={game}  onClick={() => setValue(index)} selected={index === value}/>
               )} 
               key={index}
               />
