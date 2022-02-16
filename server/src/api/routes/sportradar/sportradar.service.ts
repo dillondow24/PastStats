@@ -1,6 +1,7 @@
 import { mapper } from '../../helpers/DynamoDBMapper';
 const fetch = require('node-fetch');
 import { DailySchedule } from './models/DailySchedule';
+import { MOCK_DAILY_SCHEDULE } from './models/MOCKS';
 
 
 /**
@@ -19,6 +20,7 @@ export class SportRadarService {
      * @memberof SportRadarService
      */
     async getDailySchedule(year: number, month: number, day: number) {
+        return MOCK_DAILY_SCHEDULE
         const response = await fetch(`http://api.sportradar.us/nba/trial/v7/en/games/${year}/${month}/${day}/schedule.json?api_key=${this.API_KEY}`);
         return await response.json() as DailySchedule;
     }

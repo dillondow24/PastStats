@@ -24,6 +24,10 @@ export default function HeaderTabs() {
             to: 'Teams',
         },
         {
+            label: 'Standings',
+            to: 'Standings',
+        },
+        {
             label: 'Profile',
             to: 'Profile',
         }
@@ -48,8 +52,10 @@ export default function HeaderTabs() {
                 return 0;
             case '/Teams':
                 return 1;
-            case '/Profile':
+            case '/Standings':
                 return 2;
+            case '/Profile':
+                return 3;
             default:    
                 return 0;
         }

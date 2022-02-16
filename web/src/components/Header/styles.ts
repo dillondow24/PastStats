@@ -10,6 +10,7 @@ export const useStyles = (theme: Theme) => ({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-end',
+        backgroundColor: theme.palette.background.paper,
     },
     logoContainer: { 
         mr: 2, 

@@ -4,8 +4,8 @@ export const useStyles = (theme: Theme) => ({
     root: {
         py: 3,
         px: 2,
-        mt: 'auto',
-        backgroundColor: theme.palette.mode === 'light' ? theme.palette.grey[200] : theme.palette.grey[800],
+        backgroundColor: theme.palette.background.paper,
+        width: "100%",
     },
     logoContainer: { 
         mr: 2, 

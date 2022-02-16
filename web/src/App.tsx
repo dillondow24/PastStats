@@ -10,6 +10,7 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import Games from './routes/Games';
 import Profile from './routes/Profile';
+import Standings from './routes/Standings';
 import Teams from './routes/Teams';
 
 function App() {
@@ -18,18 +19,29 @@ function App() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Header/>
-      <Container maxWidth='lg'>
-        <Box sx={{ mt: 1, minHeight: '80vh' }}>
-          <Routes>
-            <Route path="/" element={<Games />} />
-            <Route path="Games" element={<Games />} />
-            <Route path="Teams" element={<Teams />} />
-            <Route path="Profile" element={<Profile />} />
-          </Routes>
+      <Box sx={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
+
+        <Box sx={{display: 'flex'}}>
+          <Header/>
         </Box>
-      </Container>
-      <Footer />
+
+        <Box sx={{display: 'flex', flex: 1}}>
+          <Container maxWidth='lg'>
+            <Box sx={{ mt: '100px'}}>
+              <Routes>
+                <Route path="/" element={<Games />} />
+                <Route path="Games" element={<Games />} />
+                <Route path="Teams" element={<Teams />} />
+                <Route path="Standings" element={<Standings />} />
+                <Route path="Profile" element={<Profile />} />
+              </Routes>
+            </Box>
+          </Container>
+        </Box>
+        <Box sx={{display: 'flex'}}>
+          <Footer />
+        </Box>
+      </Box>
     </React.Fragment>
   );
 }

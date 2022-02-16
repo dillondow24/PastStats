@@ -24,7 +24,7 @@ const Header = () => {
     const {isAuthenticated} = useUserContext();
 
     return (
-      <AppBar position="static" color='primary' sx={styles.root} >
+      <AppBar sx={styles.root} >
         <Box sx={styles.logoContainer}>
           <PastStatsLogo />
         </Box>

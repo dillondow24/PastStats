@@ -13,6 +13,8 @@ interface UserContextInterface {
     handleLogin: (email: string, password: string) => Promise<void>
     /** function to handle signing up a user */
     handleSignUp: (username: string, email: string, phone: string, password: string) => Promise<void>
+    /** function to handle logging out a user */
+    handleLogout: () => void
 }
 
 
@@ -20,7 +22,8 @@ const UserContext = createContext<UserContextInterface>({
     user: null,
     isAuthenticated: false,
     handleLogin: async () => {},
-    handleSignUp: async () => {}
+    handleSignUp: async () => {},
+    handleLogout: () => {}
 });
 export const useUserContext = () => useContext(UserContext);
 
@@ -73,12 +76,17 @@ export const UserContextProvider = ({children}: any) => {
         }
   }
 
+  const handleLogout = () => {
+    setUser(null)
+  }
+
   return (
     <UserContext.Provider value={{
         user,
         isAuthenticated: user !== null,
         handleLogin,
-        handleSignUp
+        handleSignUp,
+        handleLogout
         }}>
       {children}
     </UserContext.Provider>
