@@ -1,13 +1,15 @@
 import * as React from 'react';
 import {Avatar, Box, Divider, Typography} from '@mui/material';
-import { SportRadarNBAGame } from '../../model/sportradar/NBAGame';
+import { SportRadarNBAGame } from '../../../model/sportradar/NBAGame';
 import { useTheme } from '@mui/material';
 import { useStyles } from './styles';
-import { NBATeamMetadata } from '../../utils/getNBATeamMetadata';
+import { NBATeamMetadata } from '../../../utils/getNBATeamMetadata';
 import moment from 'moment';
+import { getGameDay } from '../../../utils/getGameDay';
+import { getGameTime } from '../../../utils/getGameTime';
 
 interface Props {
-  game: SportRadarNBAGame;
+  game?: SportRadarNBAGame;
   selected: boolean;
   onClick: () => void;
 }
@@ -19,48 +21,40 @@ export function DailyScheduleGamePreview({game, selected, onClick}: Props) {
 
     const LOGO_SIZE = 30
 
-    console.log('game: ', game)
     //@ts-ignore
-    const homeTeam = NBATeamMetadata[game.home.id];
+    const homeTeam = game ? NBATeamMetadata[game.home.id] : {logo: '', name: 'Home'};
     //@ts-ignore
-    const awayTeam = NBATeamMetadata[game.away.id];
+    const awayTeam = game ? NBATeamMetadata[game.away.id] : {logo: '', name: 'Away'};
 
     const selectedStyles = {
       border: `1px solid ${theme.palette.primary.main}`,
     }
 
-    
-    const getGameDay = () => {
-      const tipoff = moment(game.scheduled)
-      const yesterday = moment().add(-1, 'days')
-      const today = moment()
-      const tomorrow = moment().add(1, 'day')
-      if(tipoff.isSame(yesterday, 'day')) {
-        return 'Yesterday'
-      } else if(tipoff.isSame(today, 'day')) {
-        return 'Today'
-      } else if(tipoff.isSame(tomorrow, 'day')) {
-        return 'Tomorrow'
-      } else {
-         return tipoff.format('ddd, MMM D')
-      }
+    const getWinner = () => {
+      if (!game || game.status !== 'closed') return 'none';
+      return game.home_points > game.away_points ? 'home' : 'away'; 
     }
-    
-    const getGameTime = () => {
-      switch (game.status){
-        case 'closed':
-          return 'Final'
-        default:
-          const scheduled = moment(game.scheduled)
-          return scheduled.format('h:mm a')
+
+    const getTeamRecord = (teamId: string) => {
+      //TODO: make api call to get record from sportradar and store in recoil state
+      return '(32-27)'
+    }
+
+    const getScoreOrRecord = (team: 'home' | ' away') => {
+      if(!game) return '-';
+      const isHome = team === 'home';
+      if (game.status === 'scheduled'){
+        return getTeamRecord(isHome ? game.home.id : game.away.id);
+      } else {
+        return isHome ? game.home_points : game.away_points;
       }
     }
 
     return (
       <Box sx={styles.root} onClick={onClick} style={selected ? selectedStyles : undefined}>
         <Box sx={{...styles.container, pb: 1}} style={{justifyContent: 'space-between'}}>
-          <Typography variant="caption" color='textSecondary'><b>{getGameDay()}</b></Typography>
-          <Typography variant="caption" color='textSecondary'><b>{getGameTime()}</b></Typography>
+          <Typography variant="caption" color='textSecondary'><b>{game ? getGameDay(game.scheduled) : ''}</b></Typography>
+          <Typography variant="caption" color='textSecondary'><b>{game ? getGameTime(game.scheduled, game.status === 'closed') : '-:--'}</b></Typography>
         </Box>
 
         {/* Home Team */}
@@ -69,7 +63,7 @@ export function DailyScheduleGamePreview({game, selected, onClick}: Props) {
             <Avatar variant='rounded' src={homeTeam.logo} alt={homeTeam.name} sx={{ width: LOGO_SIZE, height: LOGO_SIZE, mr: 1}}/>
             <Typography>{homeTeam.name}</Typography>
           </Box>
-          <Typography><b>{game.home_points}</b></Typography>
+          <Typography color={getWinner() === 'away' ? 'textSecondary' : undefined}><b>{getScoreOrRecord('home')}</b></Typography>
         </Box>
           
         <Divider sx={{my: 1}}/>
@@ -81,7 +75,7 @@ export function DailyScheduleGamePreview({game, selected, onClick}: Props) {
             <Avatar variant='rounded' src={awayTeam.logo} alt={awayTeam.name} sx={{ width: LOGO_SIZE, height: LOGO_SIZE, mr: 1}}/>
             <Typography>{awayTeam.name}</Typography>
           </Box>
-          <Typography><b>{game.away_points}</b></Typography>
+          <Typography color={getWinner() === 'home' ? 'textSecondary' : undefined}><b>{getScoreOrRecord('home')}</b></Typography>
         </Box>
       </Box>
     );

@@ -1,18 +1,29 @@
 import { Grid, useTheme } from '@mui/material';
-import React from 'react'
-import DailySchedule from '../../components/DailySchedule';
-import FullGameDetails from '../../components/FullGameDetails';
+import moment from 'moment';
+import React, { useState } from 'react';
+import DailySchedule from '../../components/GamePageComponents/DailySchedule';
+import DaySelector from '../../components/GamePageComponents/DaySelector';
 import { useStyles } from './styles';
 
 export default function Games() {
     const theme = useTheme();
     const styles = useStyles(theme);
 
+    const [activeDay, setActiveDay] = useState(moment().toISOString());
+
+    const year = moment(activeDay).year();
+    const month = moment(activeDay).month() + 1;
+    const day = moment(activeDay).date();
+
     return (
         <Grid container spacing={3}>
 
             <Grid item xs={12}>
-                <DailySchedule year={2022} month={1} day={5} />
+                <DaySelector activeDate={activeDay} onChangeActiveDate={(newDate) => setActiveDay(newDate)}/>
+            </Grid>
+
+            <Grid item xs={12}>
+                <DailySchedule year={year} month={month} day={day} />
             </Grid>
             
         </Grid>

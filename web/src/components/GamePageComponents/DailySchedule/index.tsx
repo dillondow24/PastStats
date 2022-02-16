@@ -1,7 +1,7 @@
 import { Tab, Tabs, useTheme } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { API } from '../../api';
-import { SportRadarNBAGame } from '../../model/sportradar/NBAGame';
+import { API } from '../../../api';
+import { SportRadarNBAGame } from '../../../model/sportradar/NBAGame';
 import { DailyScheduleGamePreview } from '../DailyScheduleGamePreview';
 import FullGameDetails from '../FullGameDetails';
 import { useStyles } from './styles';
@@ -18,16 +18,20 @@ export default function DailySchedule({year, month, day}: Props) {
 
     const [value, setValue] = useState(0);
     const [games, setGames] = useState<SportRadarNBAGame[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
       const setup = async () => {
-        const newGames = await API.SportRadarAPI.getDailySchedule(year, month, day)
-        setGames(newGames.games);
+        try {
+          const newGames = await API.SportRadarAPI.getDailySchedule(year, month, day)
+          setGames(newGames.games);
+          setLoading(false)
+        } catch {
+          setLoading(true)
+        }
       }
-
       setup()
-    },[])
-
+    },[day])
 
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -44,10 +48,13 @@ export default function DailySchedule({year, month, day}: Props) {
         aria-label="scrollable auto tabs example"
         sx={styles.tabs}
       >
-        {games.map((game, index) => (
-            <Tab 
+              
+        {loading ? 
+            <Tab component={() => (<DailyScheduleGamePreview onClick={() => undefined} selected={false}/>)} />
+            : games.map((game, index) => (
+              <Tab 
               component={() => (
-                  <DailyScheduleGamePreview game={game}  onClick={() => setValue(index)} selected={index === value}/>
+                  <DailyScheduleGamePreview game={game} onClick={() => setValue(index)} selected={index === value}/>
               )} 
               key={index}
               />
