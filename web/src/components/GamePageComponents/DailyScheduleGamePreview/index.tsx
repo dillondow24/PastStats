@@ -11,6 +11,7 @@ import { MOCK_GAME_SUMMARY } from '../../../model/sportradar/MOCKS';
 import { toOrdinalSuffix } from '../../../utils/toOrdinalSuffix';
 import { API } from '../../../api';
 import { LoadingDailySchedulePreview } from './LoadingDailySchedulePreview';
+import { useShowLiveStats } from '../../../contexts/showLiveStatsContext';
 
 interface Props {
   game?: SportRadarNBAGame;
@@ -23,6 +24,7 @@ interface Props {
 export function DailyScheduleGamePreview({game, selected, onClick, index}: Props) {
     const theme = useTheme();
     const styles = useStyles(theme);
+    const {showLiveStats} = useShowLiveStats();
 
     const [gameSummary, setGameSummary] = useState<any | null>(null);
     const [loadingGameSummary, setLoadingGameSummary] = useState(true);
@@ -63,7 +65,7 @@ export function DailyScheduleGamePreview({game, selected, onClick, index}: Props
     }
 
     const getWinner = () => {
-      if (!game || game.status !== 'closed') return 'none';
+      if (!game || game.status !== 'closed' || !showLiveStats) return 'none';
       return game.home_points > game.away_points ? 'home' : 'away'; 
     }
 
@@ -78,9 +80,9 @@ export function DailyScheduleGamePreview({game, selected, onClick, index}: Props
       if (game.status === 'scheduled'){
         return getTeamRecord(isHome ? game.home.id : game.away.id);
       } else if (game.status === 'inprogress') {
-        return gameSummary ? isHome ? gameSummary.home.points : gameSummary.away.points : '-';
+        return gameSummary && showLiveStats ? isHome ? gameSummary.home.points : gameSummary.away.points : '-';
       } else {
-        return isHome ? game.home_points : game.away_points;
+        return showLiveStats ? isHome ? game.home_points : game.away_points : '-';
       }
     }
 
@@ -102,7 +104,7 @@ export function DailyScheduleGamePreview({game, selected, onClick, index}: Props
           </Typography>
           <Typography variant="caption" color='textSecondary'>
             <b>{game ? 
-                isLive ? 
+                isLive && showLiveStats ? 
                   isHalf ? 
                     'Half' 
                     : `${toOrdinalSuffix(gameSummary ? gameSummary.quarter : 1)} ${gameSummary ? gameSummary.clock : '12:00'}` 

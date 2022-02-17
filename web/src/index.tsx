@@ -7,12 +7,15 @@ import { BrowserRouter } from "react-router-dom";
 import { theme } from './theme/theme';
 import { ThemeProvider } from '@mui/material';
 import { UserContextProvider } from './contexts/userContext';
+import { ShowLiveStatsProvider } from './contexts/showLiveStatsContext';
 
 ReactDOM.render(
   <BrowserRouter>
     <ThemeProvider theme={theme}>
       <UserContextProvider>
-        <App />
+        <ShowLiveStatsProvider>
+          <App />
+        </ShowLiveStatsProvider>
       </UserContextProvider>
     </ThemeProvider>
   </BrowserRouter>,
