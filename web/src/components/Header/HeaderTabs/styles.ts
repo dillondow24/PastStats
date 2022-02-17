@@ -22,7 +22,8 @@ export const useStyles = (theme: Theme) => ({
         flexDirection: 'row',
         pb: 1
     },
-    tab: {
-        mb: 0,
+    tabButton: {
+        mx: 1,
+        px: 1
     }
 }) as {[style: string]: SxProps<Theme>};

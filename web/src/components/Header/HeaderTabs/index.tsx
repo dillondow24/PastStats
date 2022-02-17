@@ -11,66 +11,55 @@ import { useLocation, useNavigate } from 'react-router-dom'
 export default function HeaderTabs() {
     const theme = useTheme();
     const styles = useStyles(theme);
-    const location = useLocation();
     const navigate = useNavigate();
-
+    const location = useLocation();
+    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+    
     const pages = [
-        {
-            label: 'Games',
-            to: 'Games',
-        },
-        {
-            label: 'Teams',
-            to: 'Teams',
-        },
-        {
-            label: 'Standings',
-            to: 'Standings',
-        },
-        {
-            label: 'Profile',
-            to: 'Profile',
-        }
+        'Games',
+        'Teams',
+        'Standings',
+        'Profile',
     ];
 
-    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+    const getCurrentPage = () => {
+        switch (location.pathname) {
+            case '/':
+                return 'Games';
+            case '/Games':
+                return 'Games';
+            case '/Teams':
+                return 'Teams';
+            case '/Standings':
+                return 'Standings';
+            case '/Profile':
+                return 'Profile';
+            default:    
+                return 'Games';
+        }
+    }
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
     };
 
-    const handleChange = (event: any) => {
-        getCurrentTab();
-        handleOpenNavMenu(event);
-    };
-
-    const getCurrentTab = () => {
-        switch (location.pathname) {
-            case '/':
-                return 0;
-            case '/Games':
-                return 0;
-            case '/Teams':
-                return 1;
-            case '/Standings':
-                return 2;
-            case '/Profile':
-                return 3;
-            default:    
-                return 0;
-        }
-    }
-
     const renderWebView = () => {
         return (
             <Box sx={styles.webViewRoot}>
-                <Tabs value={getCurrentTab()} onChange={handleChange} centered>
-                    {pages.map((page, index) => {
-                        return (
-                            <Tab key={index} label={page.label} onClick={() => navigate(page.to)} sx={styles.tab}/>
-                        )
-                    })}
-                </Tabs>
+                {pages.map((page, index) => {
+                    const selected = page === getCurrentPage()
+                    return (
+                        <Button 
+                            variant={selected ? 'contained' : 'text'} 
+                            color={selected ? 'primary' : 'inherit'} 
+                            onClick={() => navigate(page)} 
+                            key={index}
+                            sx={styles.tabButton}>
+                            <Typography>{page}</Typography>
+
+                        </Button>
+                    )
+                })}
             </Box>
         )
     }
@@ -106,12 +95,12 @@ export default function HeaderTabs() {
                     sx={styles.menu}
                     >
                     {pages.map((page) => (
-                        <MenuItem key={page.label} onClick={() => {
-                                navigate(page.to)
+                        <MenuItem key={page} onClick={() => {
+                                navigate(page)
                                 setAnchorElNav(null)
                             }
                         }>
-                            <Typography textAlign="center">{page.label}</Typography>
+                            <Typography textAlign="center">{page}</Typography>
                         </MenuItem>
                     ))}
                     </Menu>

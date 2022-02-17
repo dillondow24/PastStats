@@ -36,7 +36,7 @@ export function DailyScheduleGamePreview({game, selected, onClick}: Props) {
     }
 
     const getTeamRecord = (teamId: string) => {
-      //TODO: make api call to get record from sportradar and store in recoil state
+      //TODO: make api call to get team data (including record) from sportradar and store in recoil state
       return '(32-27)'
     }
 
