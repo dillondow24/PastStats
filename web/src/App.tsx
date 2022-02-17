@@ -27,7 +27,7 @@ function App() {
 
         <Box sx={{display: 'flex', flex: 1}}>
           <Container maxWidth='lg'>
-            <Box sx={{ mt: '100px'}}>
+            <Box sx={{ mt: '70px'}}>
               <Routes>
                 <Route path="/" element={<Games />} />
                 <Route path="Games" element={<Games />} />

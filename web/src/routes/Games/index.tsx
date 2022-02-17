@@ -16,7 +16,7 @@ export default function Games() {
     const day = moment(activeDay).date();
 
     return (
-        <Grid container spacing={3}>
+        <Grid container spacing={1}>
 
             <Grid item xs={12}>
                 <DaySelector activeDate={activeDay} onChangeActiveDate={(newDate) => setActiveDay(newDate)}/>

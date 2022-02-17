@@ -3,7 +3,7 @@ import {Avatar, Box, Divider, Typography} from '@mui/material';
 import { SportRadarNBAGame } from '../../../model/sportradar/NBAGame';
 import { useTheme } from '@mui/material';
 import { useStyles } from './styles';
-import { NBATeamMetadata } from '../../../utils/getNBATeamMetadata';
+import { getTeamLogo } from '../../../utils/getTeamLogo';
 import moment from 'moment';
 import { getGameDay } from '../../../utils/getGameDay';
 import { getGameTime } from '../../../utils/getGameTime';
@@ -49,16 +49,11 @@ export function DailyScheduleGamePreview({game, selected, onClick, index}: Props
       setup()
     }, [])
 
-    const LOGO_SIZE = 30
+    const LOGO_SIZE = 40
 
     const isLive = game?.status === 'inprogress'
     const isHalf = gameSummary?.status === 'halftime'
-    console.log(game?.status)
 
-    //@ts-ignore
-    const homeTeam = game ? NBATeamMetadata[game.home.id] : {logo: '', name: 'Home'};
-    //@ts-ignore
-    const awayTeam = game ? NBATeamMetadata[game.away.id] : {logo: '', name: 'Away'};
 
     const selectedStyles = {
       border: `1px solid ${theme.palette.primary.main}`,
@@ -116,8 +111,8 @@ export function DailyScheduleGamePreview({game, selected, onClick, index}: Props
         {/* Home Team */}
         <Box sx={styles.container} style={{justifyContent: 'space-between'}}>
           <Box sx={styles.container} style={{paddingLeft: 0}}>
-            <Avatar variant='rounded' src={homeTeam.logo} alt={homeTeam.name} sx={{ width: LOGO_SIZE, height: LOGO_SIZE, mr: 1}}/>
-            <Typography>{homeTeam.name}</Typography>
+            <Box sx={{mr: 1, mb: -1}}>{getTeamLogo(game.home.id, LOGO_SIZE)}</Box>
+            <Typography>{game.home.alias}</Typography>
           </Box>
           <Typography color={getWinner() === 'away' ? 'textSecondary' : undefined}><b>{getScoreOrRecord('home')}</b></Typography>
         </Box>
@@ -128,8 +123,8 @@ export function DailyScheduleGamePreview({game, selected, onClick, index}: Props
         {/* Away Team */}
         <Box sx={styles.container} style={{justifyContent: 'space-between'}}>
           <Box sx={styles.container} style={{paddingLeft: 0}}>
-            <Avatar variant='rounded' src={awayTeam.logo} alt={awayTeam.name} sx={{ width: LOGO_SIZE, height: LOGO_SIZE, mr: 1}}/>
-            <Typography>{awayTeam.name}</Typography>
+            <Box sx={{mr: 1, mb: -1}}>{getTeamLogo(game.away.id, LOGO_SIZE)}</Box>
+            <Typography>{game.away.alias}</Typography>
           </Box>
           <Typography color={getWinner() === 'home' ? 'textSecondary' : undefined}><b>{getScoreOrRecord('away')}</b></Typography>
         </Box>
