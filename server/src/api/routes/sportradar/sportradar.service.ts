@@ -23,5 +23,16 @@ export class SportRadarService {
         const response = await fetch(`http://api.sportradar.us/nba/trial/v7/en/games/${year}/${month}/${day}/schedule.json?api_key=${this.API_KEY}`);
         return await response.json() as DailySchedule;
     }
+    /**
+     * Get a gameSummary from gameId
+     *
+     * @param {string} gameId
+     * @return {SportRadar} 
+     * @memberof SportRadarService
+     */
+    async getGameSummary(gameId: string) {
+        const response = await fetch(`http://api.sportradar.us/nba/trial/v7/en/games/${gameId}/summary.json?api_key=${this.API_KEY}`);
+        return await response.json();
+    }
 
 }

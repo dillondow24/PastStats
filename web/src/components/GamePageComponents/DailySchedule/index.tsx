@@ -20,6 +20,8 @@ export default function DailySchedule({year, month, day}: Props) {
     const [games, setGames] = useState<SportRadarNBAGame[]>([]);
     const [loading, setLoading] = useState(true);
 
+    //TODO: scroll so that today is in the center on first load
+
     useEffect(() => {
       const setup = async () => {
         try {
@@ -50,11 +52,11 @@ export default function DailySchedule({year, month, day}: Props) {
       >
               
         {loading ? 
-            <Tab component={() => (<DailyScheduleGamePreview onClick={() => undefined} selected={false}/>)} />
+            <Tab component={() => (<DailyScheduleGamePreview onClick={() => undefined} selected={false} index={0}/>)} />
             : games.map((game, index) => (
               <Tab 
               component={() => (
-                  <DailyScheduleGamePreview game={game} onClick={() => setValue(index)} selected={index === value}/>
+                  <DailyScheduleGamePreview game={game} onClick={() => setValue(index)} selected={index === value} index={index}/>
               )} 
               key={index}
               />

@@ -33,4 +33,22 @@ export class SportRadarController {
             res.status(500).send(`Error Getting User: ${error.name}`)
         } 
     }
+    /**
+     * Get a daily schedule for a year, month, and day
+     *
+     * @param {*} params
+     * @param {*} response
+     * @memberof UserController
+     */
+    @Get('gameSummary/:gameId')
+    async geyGameSummary(@Params() params: any, @Res() res: Response) {
+        try {
+            const {gameId} = params;
+            const dailySchedule = await this.SportRadarService.getGameSummary(gameId)
+            res.status(200).send(dailySchedule)
+        } catch (error: any) {
+            res.statusMessage = error.name
+            res.status(500).send(`Error Getting User: ${error.name}`)
+        } 
+    }
 }

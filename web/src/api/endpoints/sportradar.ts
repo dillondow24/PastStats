@@ -1,4 +1,5 @@
 import { DailySchedule } from "../../model/sportradar/DailySchedule";
+import { GameSummary } from "../../model/sportradar/GameSummary";
 import { User } from "../../model/user";
 
 const BASE_URL = 'http://localhost:8080/sportradar'
@@ -13,4 +14,13 @@ export const SportRadarAPI = {
             throw new Error(response.statusText)
         }
     },
+
+    getGameSummary: async (gameId: string) => {
+        const response = await fetch(`${BASE_URL}/gameSummary/${gameId}`);
+        if(response.status === 200) {
+            return await response.json() as GameSummary;
+        } else {
+            throw new Error(response.statusText)
+        }   
+    }
 }

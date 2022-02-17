@@ -20,7 +20,6 @@ export const useStyles = (theme: Theme) => ({
     mobileViewRootContainer: {
         display: 'flex',
         flexDirection: 'row',
-        pb: 1
     },
     tabButton: {
         mx: 1,

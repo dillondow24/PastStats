@@ -2,10 +2,8 @@ import { SxProps, Theme } from "@mui/material";
 
 export const useStyles = (theme: Theme) => ({
     root: {
-        pl: 2,
-        pr: 2,
-        pt: 1,
-        pb: 1,
+        px: 2,
+        py: 1,
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',

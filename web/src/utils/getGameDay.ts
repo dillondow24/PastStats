@@ -6,6 +6,7 @@ export const getGameDay = (inp?: MomentInput) => {
   const yesterday = moment().add(-1, 'days')
   const today = moment()
   const tomorrow = moment().add(1, 'day')
+  
   if(tipoff.isSame(yesterday, 'day')) {
     return 'Yesterday'
   } else if(tipoff.isSame(today, 'day')) {

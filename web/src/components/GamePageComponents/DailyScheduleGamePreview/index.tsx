@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {useEffect, useState} from 'react';
 import {Avatar, Box, Divider, Typography} from '@mui/material';
 import { SportRadarNBAGame } from '../../../model/sportradar/NBAGame';
 import { useTheme } from '@mui/material';
@@ -7,19 +7,51 @@ import { NBATeamMetadata } from '../../../utils/getNBATeamMetadata';
 import moment from 'moment';
 import { getGameDay } from '../../../utils/getGameDay';
 import { getGameTime } from '../../../utils/getGameTime';
+import { MOCK_GAME_SUMMARY } from '../../../model/sportradar/MOCKS';
+import { toOrdinalSuffix } from '../../../utils/toOrdinalSuffix';
+import { API } from '../../../api';
+import { LoadingDailySchedulePreview } from './LoadingDailySchedulePreview';
 
 interface Props {
   game?: SportRadarNBAGame;
   selected: boolean;
   onClick: () => void;
+  index: number
 }
 
 
-export function DailyScheduleGamePreview({game, selected, onClick}: Props) {
+export function DailyScheduleGamePreview({game, selected, onClick, index}: Props) {
     const theme = useTheme();
     const styles = useStyles(theme);
 
+    const [gameSummary, setGameSummary] = useState<any | null>(null);
+    const [loadingGameSummary, setLoadingGameSummary] = useState(true);
+
+    /** 
+     * TODO:
+     * remove timeout
+     * timeout is here because sportsradar only allows 1 call per second
+     */
+    useEffect(() => {
+      const setup = async () => {
+          if (!game) return
+          setTimeout(async () => {
+            try {
+              const newGameSummary = await API.SportRadarAPI.getGameSummary(game.id)
+              setGameSummary(newGameSummary);
+            } finally {
+              setLoadingGameSummary(false);
+            }
+          }, (index * 1000) + 500)
+      }
+      setup()
+    }, [])
+
     const LOGO_SIZE = 30
+
+    const isLive = game?.status === 'inprogress'
+    const isHalf = gameSummary?.status === 'halftime'
+    console.log(game?.status)
 
     //@ts-ignore
     const homeTeam = game ? NBATeamMetadata[game.home.id] : {logo: '', name: 'Home'};
@@ -40,21 +72,43 @@ export function DailyScheduleGamePreview({game, selected, onClick}: Props) {
       return '(32-27)'
     }
 
-    const getScoreOrRecord = (team: 'home' | ' away') => {
+    const getScoreOrRecord = (team: 'home' | 'away') => {
       if(!game) return '-';
       const isHome = team === 'home';
       if (game.status === 'scheduled'){
         return getTeamRecord(isHome ? game.home.id : game.away.id);
+      } else if (game.status === 'inprogress') {
+        return gameSummary ? isHome ? gameSummary.home.points : gameSummary.away.points : '-';
       } else {
         return isHome ? game.home_points : game.away_points;
       }
     }
 
+
+    if(!game || loadingGameSummary){
+      return <LoadingDailySchedulePreview />
+    }
+
     return (
       <Box sx={styles.root} onClick={onClick} style={selected ? selectedStyles : undefined}>
         <Box sx={{...styles.container, pb: 1}} style={{justifyContent: 'space-between'}}>
-          <Typography variant="caption" color='textSecondary'><b>{game ? getGameDay(game.scheduled) : ''}</b></Typography>
-          <Typography variant="caption" color='textSecondary'><b>{game ? getGameTime(game.scheduled, game.status === 'closed') : '-:--'}</b></Typography>
+          <Typography variant="caption" color={isLive ? 'error' : 'textSecondary'}>
+            <b>{game ? 
+                isLive ? 
+                  'Live' 
+                  : getGameDay(game.scheduled) 
+                : ''}
+                </b>
+          </Typography>
+          <Typography variant="caption" color='textSecondary'>
+            <b>{game ? 
+                isLive ? 
+                  isHalf ? 
+                    'Half' 
+                    : `${toOrdinalSuffix(gameSummary ? gameSummary.quarter : 1)} ${gameSummary ? gameSummary.clock : '12:00'}` 
+                  : getGameTime(game.scheduled, ['complete', 'closed'].includes(game.status)) 
+                : '-:--'}</b>
+            </Typography>
         </Box>
 
         {/* Home Team */}
@@ -75,7 +129,7 @@ export function DailyScheduleGamePreview({game, selected, onClick}: Props) {
             <Avatar variant='rounded' src={awayTeam.logo} alt={awayTeam.name} sx={{ width: LOGO_SIZE, height: LOGO_SIZE, mr: 1}}/>
             <Typography>{awayTeam.name}</Typography>
           </Box>
-          <Typography color={getWinner() === 'home' ? 'textSecondary' : undefined}><b>{getScoreOrRecord('home')}</b></Typography>
+          <Typography color={getWinner() === 'home' ? 'textSecondary' : undefined}><b>{getScoreOrRecord('away')}</b></Typography>
         </Box>
       </Box>
     );
