@@ -1,8 +1,6 @@
-import { ChevronLeft, ChevronRight } from '@mui/icons-material';
-import { Box, Button, IconButton, Tab, Tabs, Typography, useTheme } from '@mui/material';
+import { Tab, Tabs, useTheme } from '@mui/material';
 import moment from 'moment';
-import React, { useState } from 'react';
-import { SportRadarNBAGame } from '../../../model/sportradar/NBAGame';
+import React from 'react';
 import { getGameDay } from '../../../utils/getGameDay';
 import { useStyles } from './styles';
 

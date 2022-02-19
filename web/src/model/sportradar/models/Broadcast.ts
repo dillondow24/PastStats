@@ -1,5 +1,4 @@
-
-export interface SportRadarBroadCast {
+export interface Broadcast {
     network: string,
     type: string,
     locale: string,

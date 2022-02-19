@@ -1,18 +1,17 @@
-import { Box, Typography, useTheme } from '@mui/material';
-import React from 'react';
-import { SportRadarNBAGame } from '../../../model/sportradar/NBAGame';
-import { DailyScheduleGamePreview } from '../DailyScheduleGamePreview';
+import { useTheme } from '@mui/material';
 import { useStyles } from './styles';
 
 interface Props {
-  game: SportRadarNBAGame;
+  gameId: string;
 }
 
-export default function FullGameDetails({game}: Props) {
+export default function FullGameDetails({gameId}: Props) {
     const theme = useTheme();
     const styles = useStyles(theme);
 
     return (
-      null
+      <div>
+        gameId
+      </div>
     );
 }

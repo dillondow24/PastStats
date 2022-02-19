@@ -1,7 +1,7 @@
 import { Tab, Tabs, useTheme } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { API } from '../../../api';
-import { SportRadarNBAGame } from '../../../model/sportradar/NBAGame';
+import { DailyScheduleGame } from '../../../model/sportradar/models/DailySchedule/Interfaces/DailyScheduleGame';
 import { DailyScheduleGamePreview } from '../DailyScheduleGamePreview';
 import FullGameDetails from '../FullGameDetails';
 import { useStyles } from './styles';
@@ -17,7 +17,7 @@ export default function DailySchedule({year, month, day}: Props) {
     const styles = useStyles(theme);
 
     const [value, setValue] = useState(0);
-    const [games, setGames] = useState<SportRadarNBAGame[]>([]);
+    const [dailyScheduleGames, setDailyScheduleGames] = useState<DailyScheduleGame[]>([]);
     const [loading, setLoading] = useState(true);
 
     //TODO: scroll so that today is in the center on first load
@@ -26,7 +26,7 @@ export default function DailySchedule({year, month, day}: Props) {
       const setup = async () => {
         try {
           const newGames = await API.SportRadarAPI.getDailySchedule(year, month, day)
-          setGames(newGames.games);
+          setDailyScheduleGames(newGames.games);
           setLoading(false)
         } catch {
           setLoading(true)
@@ -39,6 +39,8 @@ export default function DailySchedule({year, month, day}: Props) {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  
 
   return (
     <div>
@@ -53,17 +55,17 @@ export default function DailySchedule({year, month, day}: Props) {
               
         {loading ? 
             <Tab component={() => (<DailyScheduleGamePreview onClick={() => undefined} selected={false} index={0}/>)} />
-            : games.map((game, index) => (
+            : dailyScheduleGames.map((game, index) => (
               <Tab 
               component={() => (
-                  <DailyScheduleGamePreview game={game} onClick={() => setValue(index)} selected={index === value} index={index}/>
+                  <DailyScheduleGamePreview dailyScheduleGame={game} onClick={() => setValue(index)} selected={index === value} index={index}/>
               )} 
               key={index}
               />
         ))}
       </Tabs>
 
-      {games[value] && <FullGameDetails game={games[value]} />}
+      {dailyScheduleGames[value] && <FullGameDetails gameId={dailyScheduleGames[value].id} />}
     </div>
   );
 }
