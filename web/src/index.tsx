@@ -8,13 +8,16 @@ import { theme } from './theme/theme';
 import { ThemeProvider } from '@mui/material';
 import { UserContextProvider } from './contexts/userContext';
 import { ShowLiveStatsProvider } from './contexts/showLiveStatsContext';
+import { ThrottleAPIProvider } from './contexts/throttleAPI';
 
 ReactDOM.render(
   <BrowserRouter>
     <ThemeProvider theme={theme}>
       <UserContextProvider>
         <ShowLiveStatsProvider>
-          <App />
+          <ThrottleAPIProvider>
+            <App />
+          </ThrottleAPIProvider>
         </ShowLiveStatsProvider>
       </UserContextProvider>
     </ThemeProvider>

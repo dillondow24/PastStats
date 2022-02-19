@@ -25,6 +25,7 @@ const UserContext = createContext<UserContextInterface>({
     handleSignUp: async () => {},
     handleLogout: () => {}
 });
+
 export const useUserContext = () => useContext(UserContext);
 
 

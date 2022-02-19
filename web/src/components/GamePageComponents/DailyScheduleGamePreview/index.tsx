@@ -12,6 +12,7 @@ import { toOrdinalSuffix } from '../../../utils/toOrdinalSuffix';
 import { API } from '../../../api';
 import { LoadingDailySchedulePreview } from './LoadingDailySchedulePreview';
 import { useShowLiveStats } from '../../../contexts/showLiveStatsContext';
+import { useThrottleAPI } from '../../../contexts/throttleAPI';
 
 interface Props {
   game?: SportRadarNBAGame;
@@ -25,7 +26,7 @@ export function DailyScheduleGamePreview({game, selected, onClick, index}: Props
     const theme = useTheme();
     const styles = useStyles(theme);
     const {showLiveStats} = useShowLiveStats();
-
+    const {throttle} = useThrottleAPI();
     const [gameSummary, setGameSummary] = useState<any | null>(null);
     const [loadingGameSummary, setLoadingGameSummary] = useState(true);
 
@@ -37,14 +38,14 @@ export function DailyScheduleGamePreview({game, selected, onClick, index}: Props
     useEffect(() => {
       const setup = async () => {
           if (!game) return
-          setTimeout(async () => {
+          throttle(async () => {
             try {
               const newGameSummary = await API.SportRadarAPI.getGameSummary(game.id)
               setGameSummary(newGameSummary);
             } finally {
               setLoadingGameSummary(false);
             }
-          }, (index * 1000) + 500)
+          })
       }
       setup()
     }, [])
