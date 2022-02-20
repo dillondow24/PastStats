@@ -5,6 +5,7 @@ import { useGameContext } from '../../GameContext';
 import { useStyles } from '../styles';
 import BoxScore from './BoxScore';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { GameSummaryPlayer } from '../../../../../model/sportradar/models/GameSummary/Interfaces/GameSummaryPlayer';
 
 
 
@@ -19,10 +20,21 @@ export default function PlayerStats() {
       setValue(newValue);
     };
 
-    const homeStarters = gameSummary.home.players.filter(player => player.starter);
-    const homeBench = gameSummary.home.players.filter(player => !player.starter);
-    const awayStarters = gameSummary.away.players.filter(player => player.starter);
-    const awayBench = gameSummary.away.players.filter(player => !player.starter);
+
+    const convertMinutesToNumber = (player: GameSummaryPlayer) => {
+        const [mins, secs] = player.statistics.minutes.split(':');
+        return Number(mins + secs)
+    }
+
+    const stats = [
+      {
+        starters: gameSummary.home.players.filter(player => player.starter).sort((a, b) => convertMinutesToNumber(b) - convertMinutesToNumber(a)),
+        bench: gameSummary.home.players.filter(player => !player.starter).sort((a, b) => convertMinutesToNumber(b) - convertMinutesToNumber(a))
+      },{
+        starters: gameSummary.away.players.filter(player => player.starter).sort((a, b) => convertMinutesToNumber(b) - convertMinutesToNumber(a)),
+        bench: gameSummary.away.players.filter(player => !player.starter).sort((a, b) => convertMinutesToNumber(b) - convertMinutesToNumber(a)),
+      },
+    ]
 
     return (
     <div>
@@ -38,30 +50,21 @@ export default function PlayerStats() {
         </Tabs>
       </Box>
 
+
+      {stats.map(({starters, bench}, index) => (
+        <TabPanel value={value} index={index}>
+          <BoxScore playerType={'Starters'} players={starters}/>
+          <Accordion sx={{boxShadow: 'none'}}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{backgroundColor: theme.palette.background.paper}}>
+              <Typography>View More</Typography>
+            </AccordionSummary>
+            <AccordionDetails sx={{backgroundColor: theme.palette.background.paper, p: 0}}>
+              <BoxScore playerType={'Bench'} players={bench}/>
+            </AccordionDetails>
+          </Accordion>
+        </TabPanel>
+      ))}
       
-      <TabPanel value={value} index={0}>
-        <BoxScore playerType={'Starters'} players={homeStarters}/>
-        <Accordion sx={{boxShadow: 'none'}}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{backgroundColor: theme.palette.background.paper}}>
-            <Typography>View More</Typography>
-          </AccordionSummary>
-          <AccordionDetails sx={{backgroundColor: theme.palette.background.paper, p: 0}}>
-            <BoxScore playerType={'Bench'} players={homeBench}/>
-          </AccordionDetails>
-        </Accordion>
-      </TabPanel>
-      
-      <TabPanel value={value} index={1}>
-        <BoxScore playerType={'Starters'} players={awayStarters}/>
-        <Accordion sx={{boxShadow: 'none'}}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{backgroundColor: theme.palette.background.paper}}>
-            <Typography>View More</Typography>
-          </AccordionSummary>
-          <AccordionDetails sx={{backgroundColor: theme.palette.background.paper, p: 0}}>
-            <BoxScore playerType={'Bench'} players={awayBench}/>
-          </AccordionDetails>
-        </Accordion>
-      </TabPanel>
     </div>
     );
 }

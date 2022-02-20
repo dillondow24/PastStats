@@ -1,5 +1,4 @@
-import { Box, Table, TableContainer, Typography, useTheme, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
-import { useState } from 'react';
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, useTheme } from '@mui/material';
 import { useShowLiveStats } from '../../../../../../contexts/showLiveStatsContext';
 import { GameSummaryPlayer, GameSummaryPlayersStatistics } from '../../../../../../model/sportradar/models/GameSummary/Interfaces/GameSummaryPlayer';
 import { useGameContext } from '../../../GameContext';
@@ -14,6 +13,7 @@ interface Props {
 export default function BoxScore({players, playerType}: Props) {
     const theme = useTheme();
     const styles = useStyles(theme);
+    const {isFinal} = useGameContext();
     const { showLiveStats } = useShowLiveStats();
     
     const statisticalCategories = [
@@ -32,32 +32,33 @@ export default function BoxScore({players, playerType}: Props) {
     ]
 
     const getPlayerStatistic = (category: string, statistics: GameSummaryPlayersStatistics) => {
-      if(showLiveStats) return '-'
+      const [mins] = statistics.minutes.split(':');
+      const DNP = mins === '00'
       switch (category) {
         case ('MIN') : 
-          return statistics.minutes
+          return DNP ? isFinal ? 'DNP' : '0' : mins
         case ('PTS') : 
-          return statistics.points
+          return (showLiveStats || DNP) ? '-' : statistics.points
         case ('REB') : 
-          return statistics.rebounds
+          return (showLiveStats || DNP) ? '-' : statistics.rebounds
         case ('AST') : 
-          return statistics.assists
+          return (showLiveStats || DNP) ? '-' : statistics.assists
         case ('FG') : 
-          return `${statistics.field_goals_made}/${statistics.field_goals_att}`
+          return (showLiveStats || DNP) ? '-' : `${statistics.field_goals_made}/${statistics.field_goals_att}`
         case ('3PT') : 
-          return `${statistics.three_points_made}/${statistics.three_points_att}`
+          return (showLiveStats || DNP) ? '-' : `${statistics.three_points_made}/${statistics.three_points_att}`
         case ('FT') : 
-          return `${statistics.free_throws_made}/${statistics.free_throws_att}`
+          return (showLiveStats || DNP) ? '-' : `${statistics.free_throws_made}/${statistics.free_throws_att}`
         case ('STL') : 
-          return statistics.steals
+          return (showLiveStats || DNP) ? '-' : statistics.steals
         case ('BLK') : 
-          return statistics.blocks
+          return (showLiveStats || DNP) ? '-' : statistics.blocks
         case ('TO') : 
-          return statistics.turnovers
+          return (showLiveStats || DNP) ? '-' : statistics.turnovers
         case ('PF') : 
-          return statistics.personal_fouls
+          return (showLiveStats || DNP) ? '-' : statistics.personal_fouls
         case ('+/-') : 
-          return statistics.pls_min
+          return (showLiveStats || DNP) ? '-' : statistics.pls_min
         default: 
           return '-'
       }
