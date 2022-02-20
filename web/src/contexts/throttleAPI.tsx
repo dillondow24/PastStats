@@ -24,10 +24,10 @@ export const ThrottleAPIProvider = ({children}: any) => {
     const now = new Date().valueOf();
     const diff = now - lastFetchTimestamp;
     if(diff < 10000) { // wait 1 second before executing
-      setTimeout(() => {
-        setLastFetchTimestamp(now);
-        callback();
-      }, 1100);
+      // setTimeout(() => {
+      //   setLastFetchTimestamp(now);
+      //   callback();
+      // }, 1100);
     } else { // has been more than 1 second, so execute
       setLastFetchTimestamp(now); // set the last fetch timestamp
       callback();

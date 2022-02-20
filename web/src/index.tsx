@@ -1,23 +1,20 @@
+import { ThemeProvider } from '@mui/material';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
-import { theme } from './theme/theme';
-import { ThemeProvider } from '@mui/material';
-import { UserContextProvider } from './contexts/userContext';
+import App from './App';
 import { ShowLiveStatsProvider } from './contexts/showLiveStatsContext';
-import { ThrottleAPIProvider } from './contexts/throttleAPI';
+import { UserContextProvider } from './contexts/userContext';
+import './index.css';
+import reportWebVitals from './reportWebVitals';
+import { theme } from './theme/theme';
 
 ReactDOM.render(
   <BrowserRouter>
     <ThemeProvider theme={theme}>
       <UserContextProvider>
         <ShowLiveStatsProvider>
-          <ThrottleAPIProvider>
-            <App />
-          </ThrottleAPIProvider>
+          <App />
         </ShowLiveStatsProvider>
       </UserContextProvider>
     </ThemeProvider>

@@ -1,17 +1,15 @@
 import { useTheme } from '@mui/material';
-import { useStyles } from './styles';
+import { useState } from 'react';
+import { useStyles } from '../styles';
 
-interface Props {
-  gameId: string;
-}
 
-export default function FullGameDetails({gameId}: Props) {
+export default function TeamScoring() {
     const theme = useTheme();
     const styles = useStyles(theme);
 
     return (
       <div>
-        gameId
+        Team Scoring
       </div>
     );
 }
