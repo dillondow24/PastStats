@@ -30,13 +30,13 @@ export default function TeamScoring() {
     const theme = useTheme();
     const styles = useStyles(theme);
 
-    const {gameSummary, dailyScheduleGame, isLive, isFinal} = useGameContext();
+    const {gameSummary, dailyScheduleGame, isScheduled} = useGameContext();
     const {showLiveStats} = useShowLiveStats();
 
     const LOGO_SIZE = 40
 
 
-    const hideScore = !showLiveStats || (!isLive && !isFinal)
+    const hideScore = !showLiveStats || isScheduled
 
     const renderTeamRow = (team: GameSummaryTeamInfo) => {
       return (

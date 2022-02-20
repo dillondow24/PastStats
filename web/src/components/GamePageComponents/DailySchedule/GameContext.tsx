@@ -7,6 +7,7 @@ interface GameContextInterface {
   dailyScheduleGame: DailyScheduleGame;
   isLive: boolean;
   isFinal: boolean;
+  isScheduled: boolean;
 }
 
 const GameContext = createContext<GameContextInterface>({
@@ -14,6 +15,7 @@ const GameContext = createContext<GameContextInterface>({
     dailyScheduleGame: {} as DailyScheduleGame,
     isLive: false,
     isFinal: false,
+    isScheduled: false,
 });
 
 export const useGameContext = () => useContext(GameContext);
@@ -33,6 +35,7 @@ export const GameContextProvider = ({gameSummary, dailyScheduleGame, children}: 
       dailyScheduleGame,
       isLive: gameSummary.status === 'inprogress',
       isFinal: ['completed', 'closed'].includes(gameSummary.status),
+      isScheduled: gameSummary.status === 'scheduled',
       }}>
       {children}
     </GameContext.Provider>

@@ -14,7 +14,12 @@ export const useStyles = (theme: Theme) => ({
         // display: {xs: 'none', sm: 'flex'}
         mr: 1
     },
+    tableRow: {
+        '&:hover': {
+            backgroundColor: theme.palette.primary.main + '44'
+        },
+    },
     tableCell: {
-        p: 0
+        p: 0,
     },
 }) as {[style: string]: SxProps<Theme>};

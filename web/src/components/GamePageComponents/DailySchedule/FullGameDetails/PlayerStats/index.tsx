@@ -15,6 +15,7 @@ export default function PlayerStats() {
 
     const {gameSummary} = useGameContext();
     const [value, setValue] = useState(0);
+    const [expanded, setExpanded] = useState(false);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
       setValue(newValue);
@@ -45,8 +46,8 @@ export default function PlayerStats() {
           centered
           sx={styles.tabs}
         >
-          <Tab label={`${gameSummary.home.market} ${gameSummary.home.name}`}/>
-          <Tab label={`${gameSummary.away.market} ${gameSummary.away.name}`}/>
+          <Tab label={`${gameSummary.home.name}`}/>
+          <Tab label={`${gameSummary.away.name}`}/>
         </Tabs>
       </Box>
 
@@ -55,8 +56,12 @@ export default function PlayerStats() {
         <TabPanel value={value} index={index}>
           <BoxScore playerType={'Starters'} players={starters}/>
           <Accordion sx={{boxShadow: 'none'}}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{backgroundColor: theme.palette.background.paper}}>
-              <Typography>View More</Typography>
+            <AccordionSummary 
+              expandIcon={<ExpandMoreIcon />} 
+              sx={{backgroundColor: theme.palette.background.paper}}
+              onClick={() => {setExpanded(!expanded)}}
+              >
+              <Typography>{expanded ? 'View Less' : 'View More'}</Typography>
             </AccordionSummary>
             <AccordionDetails sx={{backgroundColor: theme.palette.background.paper, p: 0}}>
               <BoxScore playerType={'Bench'} players={bench}/>
