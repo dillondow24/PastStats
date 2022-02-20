@@ -1,10 +1,10 @@
 import { SxProps, Theme } from "@mui/material";
-import { red } from "@mui/material/colors";
 
 export const useStyles = (theme: Theme) => ({
-    section: {
+    container: {
         display: 'flex',
+        flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center'
+        px: 1
     },
 }) as {[style: string]: SxProps<Theme>};

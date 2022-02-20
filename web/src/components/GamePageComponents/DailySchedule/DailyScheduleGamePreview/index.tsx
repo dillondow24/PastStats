@@ -4,8 +4,11 @@ import { GameSummary } from '../../../../model/sportradar/models/GameSummary';
 import { GameSummaryTeamInfo } from '../../../../model/sportradar/models/GameSummary/Interfaces/GameSummaryTeamInfo';
 import { getGameDay } from '../../../../utils/getGameDay';
 import { getGameTime } from '../../../../utils/getGameTime';
+import { getGameTimeLabel } from '../../../../utils/getGameTimeLabel';
 import { getTeamLogo } from '../../../../utils/getTeamLogo';
+import { getWinner } from '../../../../utils/getWinner';
 import { toOrdinalSuffix } from '../../../../utils/toOrdinalSuffix';
+import { PreviewTeamScore } from './PreviewTeamScore';
 import { useStyles } from './styles';
 
 interface Props {
@@ -23,14 +26,8 @@ export function DailyScheduleGamePreview({gameSummary, selected, onClick}: Props
     const isLive = gameSummary.status === 'inprogress'
     const isHalf = gameSummary.status === 'halftime'
 
-
     const selectedStyles = {
       border: `1px solid ${theme.palette.primary.main}`,
-    }
-
-    const getWinner = () => {
-      if (gameSummary.status !== 'closed' || !showLiveStats) return 'none';
-      return gameSummary.home.points > gameSummary.away.points ? 'home' : 'away'; 
     }
 
     const getTeamRecord = (teamId: string) => {
@@ -46,43 +43,35 @@ export function DailyScheduleGamePreview({gameSummary, selected, onClick}: Props
       }
     }
 
-    const getGameTimeLabel = () => {
-      if(!isLive || !showLiveStats) return getGameTime(gameSummary.scheduled, ['complete', 'closed'].includes(gameSummary.status));
-      if(isHalf) return 'Half';
-      return `${toOrdinalSuffix(gameSummary.quarter)} ${gameSummary.clock}`;
-    }
-
     return (
       <Box sx={styles.root} onClick={onClick} style={selected ? selectedStyles : undefined}>
+
+        {/* Game Time */}
         <Box sx={{...styles.container, pb: 1}} style={{justifyContent: 'space-between'}}>
           <Typography variant="caption" color={isLive ? 'error' : 'textSecondary'}>
             <b>{isLive ? 'Live' : getGameDay(gameSummary.scheduled) }</b>
           </Typography>
           <Typography variant="caption" color='textSecondary'>
-            <b>{getGameTimeLabel()}</b>
+            <b>{getGameTimeLabel(isLive, isHalf, showLiveStats, gameSummary)}</b>
           </Typography>
         </Box>
 
         {/* Home Team */}
-        <Box sx={styles.container} style={{justifyContent: 'space-between'}}>
-          <Box sx={styles.container} style={{paddingLeft: 0}}>
-            <Box sx={{mr: 1, mb: -1}}>{getTeamLogo(gameSummary.home.id, LOGO_SIZE)}</Box>
-            <Typography>{gameSummary.home.alias}</Typography>
-          </Box>
-          <Typography color={getWinner() === 'away' ? 'textSecondary' : undefined}><b>{getScoreOrRecord(gameSummary.home)}</b></Typography>
-        </Box>
-          
+        <PreviewTeamScore 
+          team={gameSummary.home}
+          isWinner={getWinner(gameSummary, showLiveStats) === 'home'}
+          showRecord={gameSummary.status === 'scheduled'}
+          />
         <Divider sx={{my: 1}}/>
 
 
         {/* Away Team */}
-        <Box sx={styles.container} style={{justifyContent: 'space-between'}}>
-          <Box sx={styles.container} style={{paddingLeft: 0}}>
-            <Box sx={{mr: 1, mb: -1}}>{getTeamLogo(gameSummary.away.id, LOGO_SIZE)}</Box>
-            <Typography>{gameSummary.away.alias}</Typography>
-          </Box>
-          <Typography color={getWinner() === 'home' ? 'textSecondary' : undefined}><b>{getScoreOrRecord(gameSummary.away)}</b></Typography>
-        </Box>
+        <PreviewTeamScore 
+          team={gameSummary.away}
+          isWinner={getWinner(gameSummary, showLiveStats) === 'away'}
+          showRecord={gameSummary.status === 'scheduled'}
+          />
       </Box>
     );
 }
+

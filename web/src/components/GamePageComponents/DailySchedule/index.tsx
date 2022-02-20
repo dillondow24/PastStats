@@ -10,6 +10,7 @@ import { DailyScheduleGamePreview } from './DailyScheduleGamePreview';
 import { LoadingDailySchedulePreview } from './DailyScheduleGamePreview/LoadingDailySchedulePreview';
 import FullGameDetails from './FullGameDetails';
 import LoadingFullGameDetails from './FullGameDetails/LoadingFullGameDetails';
+import { GameContextProvider } from './GameContext';
 import { useStyles } from './styles';
 import { TabPanel } from './TabPanel';
 
@@ -78,12 +79,12 @@ export default function DailySchedule({year, month, day}: Props) {
           value={value}
           onChange={handleChange}
           variant="scrollable"
-          centered
           scrollButtons="auto"
           aria-label="scrollable auto tabs example"
           sx={styles.tabs}
         >
                 
+          
           {loading ? 
             <Tab component={() => <LoadingDailySchedulePreview />} />
             : dailyScheduleGames.map((game, index) => (
@@ -113,11 +114,13 @@ export default function DailySchedule({year, month, day}: Props) {
           const gameSummary = gameSummaries[game.id]
           return (
             <TabPanel value={value} index={index}>
-              {gameSummary === null ?
-                <LoadingFullGameDetails />
-                : <FullGameDetails gameId={game.id} gameSummary={gameSummary}/>
-              }
-            </TabPanel>
+                {gameSummary === null ?
+                  <LoadingFullGameDetails />
+                : <GameContextProvider gameSummary={gameSummary}>
+                    <FullGameDetails />
+                  </GameContextProvider>
+                }
+              </TabPanel>
           )
         })
       }
