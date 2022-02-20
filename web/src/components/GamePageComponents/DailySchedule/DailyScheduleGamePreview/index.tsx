@@ -41,7 +41,7 @@ export function DailyScheduleGamePreview({gameSummary, selected, onClick}: Props
         {/* Home Team */}
         <PreviewTeamScore 
           team={gameSummary.home}
-          isWinner={getWinner(gameSummary, showLiveStats) === 'home'}
+          isLoser={getWinner(gameSummary, showLiveStats) === 'away'}
           showRecord={gameSummary.status === 'scheduled'}
           />
         <Divider sx={{my: 1}}/>
@@ -50,7 +50,7 @@ export function DailyScheduleGamePreview({gameSummary, selected, onClick}: Props
         {/* Away Team */}
         <PreviewTeamScore 
           team={gameSummary.away}
-          isWinner={getWinner(gameSummary, showLiveStats) === 'away'}
+          isLoser={getWinner(gameSummary, showLiveStats) === 'home'}
           showRecord={gameSummary.status === 'scheduled'}
           />
       </Box>

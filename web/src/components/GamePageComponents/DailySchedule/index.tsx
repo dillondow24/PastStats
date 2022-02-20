@@ -113,7 +113,7 @@ export default function DailySchedule({year, month, day}: Props) {
             <TabPanel value={value} index={index}>
                 {gameSummary === null ?
                   <LoadingFullGameDetails />
-                : <GameContextProvider gameSummary={gameSummary}>
+                : <GameContextProvider gameSummary={gameSummary} dailyScheduleGame={game}>
                     <FullGameDetails />
                   </GameContextProvider>
                 }

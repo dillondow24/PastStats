@@ -16,10 +16,6 @@ export default function Matchup() {
     const {gameSummary} = useGameContext();
     const {showLiveStats} = useShowLiveStats();
 
-
-    const isLive = gameSummary.status === 'inprogress'
-    const isFinal = ['completed', 'closed'].includes(gameSummary.status)
-
     return (
       <Grid container alignItems='center'>
 
@@ -36,7 +32,7 @@ export default function Matchup() {
         {/* Game Time */}
         <Grid item xs={4}>
           <Box sx={styles.section}>
-            <MatchupGameTimeInfo type={isLive ? 'Live' : isFinal ? 'Final' : 'Scheduled'}/>
+            <MatchupGameTimeInfo />
           </Box>
         </Grid>
 

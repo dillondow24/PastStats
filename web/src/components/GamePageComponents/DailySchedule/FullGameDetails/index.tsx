@@ -11,22 +11,22 @@ export default function FullGameDetails() {
 
     return (
       <Grid container spacing={1}>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12}>
           <Box sx={styles.section}>
             <Matchup/>
           </Box>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12}>
           <Box sx={styles.section}>
             <TeamScoring />
           </Box>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12}>
           <Box sx={styles.section}>
             <TeamStats />
           </Box>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12}>
           <Box sx={styles.section}>
             <TeamStats />
           </Box>

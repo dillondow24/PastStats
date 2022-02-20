@@ -31,7 +31,7 @@ export const MOCK_LIVE_GAME_SUMMARY = {
         "sr_id": "sr:venue:6016"
     },
     "home": {
-        "name": "Washington Wizards",
+        "name": "Wizards",
         "alias": "WAS",
         "market": "Washington",
         "id": "583ec8d4-fb46-11e1-82cb-f4ce4684ea4c",

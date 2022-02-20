@@ -6,11 +6,11 @@ import { useStyles } from './styles';
 
 interface Props {
   team: GameSummaryTeamInfo
-  isWinner: boolean;
+  isLoser: boolean;
   showRecord: boolean;
 }
 
-export function PreviewTeamScore({team, isWinner, showRecord}: Props) {
+export function PreviewTeamScore({team, isLoser, showRecord}: Props) {
     const theme = useTheme();
     const styles = useStyles(theme);
     const {showLiveStats} = useShowLiveStats();
@@ -36,7 +36,7 @@ export function PreviewTeamScore({team, isWinner, showRecord}: Props) {
             <Box sx={{mr: 1, mb: -1}}>{getTeamLogo(team.id, LOGO_SIZE)}</Box>
             <Typography><b>{team.alias}</b></Typography>
           </Box>
-          <Typography color={isWinner ? undefined : 'textSecondary'}><b>{getScoreOrRecord()}</b></Typography>
+          <Typography color={isLoser ? 'textSecondary' : undefined}><b>{getScoreOrRecord()}</b></Typography>
         </Box>
     );
 }
