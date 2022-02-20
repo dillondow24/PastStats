@@ -9,7 +9,7 @@ export default function TeamStats() {
 
     return (
       <div>
-        Team Stats
+        Team Stats with comparison bar
       </div>
     );
 }

@@ -25,7 +25,7 @@ export const ShowLiveStatsProvider = ({children}: any) => {
       <Tooltip title="Toggle Visibility of Game Stats">
         <Fab 
           color={showLiveStats ? 'secondary' : 'primary'} 
-          sx={{position: 'fixed', bottom: theme.spacing(15), right: theme.spacing(5)}} 
+          sx={{position: 'fixed', bottom: theme.spacing(5), right: {xs: theme.spacing(5), sm: theme.spacing(15)}}} 
           onClick={() => setShowLiveStats((prev) => !prev)}>
           {showLiveStats ? <VisibilityOffIcon /> : <VisibilityIcon />}
         </Fab>

@@ -10,7 +10,7 @@ import FullGameDetails from './FullGameDetails';
 import LoadingFullGameDetails from './FullGameDetails/LoadingFullGameDetails';
 import { GameContextProvider } from './GameContext';
 import { useStyles } from './styles';
-import { TabPanel } from './TabPanel';
+import { TabPanel } from '../../TabPanel';
 
 interface Props {
   year: number;

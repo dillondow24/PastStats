@@ -1,16 +1,17 @@
-export const light = {
-    orange: '#FF8E53',
-    primary: '#FF5349',
-    secondary: '#9EA6EF'
-}
-
-export const dark = {
-    orange: '#FF8E53',
-    primary: '#FF5349',
-    secondary: '#9EA6EF'
-}
 
 export const colors = {
-    light,
-    dark
+    primary: {
+        dark: '#c51220',
+        main: '#FF5349',
+        light: '#ff8775',
+    },
+    secondary: {
+        dark: '#6d77bc',
+        main: '#9EA6EF',
+        light: '#d1d7ff',
+    },
+    background:{
+      default: '#202124',
+      paper: '#303134',
+    },
 }
