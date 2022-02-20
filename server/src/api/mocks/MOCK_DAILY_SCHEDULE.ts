@@ -1,8 +1,4 @@
-import { DailySchedule } from "../models/DailySchedule";
-
-
-      
-export const MOCK_DAILY_SCHEDULE: DailySchedule = {
+export const MOCK_DAILY_SCHEDULE = {
   "date": "2022-01-05",
   "league": {
     "id": "4353138d-4c22-4396-95d8-5f587d2df25c",

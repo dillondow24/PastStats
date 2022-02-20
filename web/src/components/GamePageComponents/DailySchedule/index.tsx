@@ -1,8 +1,6 @@
 import { Box, Tab, Tabs, useTheme } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { API } from '../../../api';
-import { MOCK_DAILY_SCHEDULE } from '../../../model/sportradar/mocks/MOCK_DAILY_SCHEDULE';
-import { MOCK_GAME_SUMMARY } from '../../../model/sportradar/mocks/MOCK_GAME_SUMMARY';
 import { DailyScheduleGame } from '../../../model/sportradar/models/DailySchedule/Interfaces/DailyScheduleGame';
 import { GameSummary } from '../../../model/sportradar/models/GameSummary';
 import { delay } from '../../../utils/delay';
@@ -37,21 +35,20 @@ export default function DailySchedule({year, month, day}: Props) {
       const setup = async () => {
         try {
           /** -------- get this days games -------- */
-          // const newGames = await API.SportRadarAPI.getDailySchedule(year, month, day)
-          // setDailyScheduleGames(newGames.games);
-          setDailyScheduleGames(MOCK_DAILY_SCHEDULE.games);
+          const newGames = await API.SportRadarAPI.getDailySchedule(year, month, day)
+          setDailyScheduleGames(newGames.games);
 
           /** -------- get game summaries for each game -------- */
           const newGameSummaries: any = {};
-          MOCK_DAILY_SCHEDULE.games.forEach(game => {
+          newGames.games.forEach(game => {
             newGameSummaries[game.id] = null;
           })
           setGameSummaries(newGameSummaries);
           setLoading(false);
-          for await (const game of MOCK_DAILY_SCHEDULE.games) {
+          for await (const game of newGames.games) {
             try {
               await delay(1000); // 1 second delay to throttle api calls TODO: remove when no longer using the sport radar free tier
-              const newMockSummary = MOCK_GAME_SUMMARY //await API.SportRadarAPI.getGameSummary(game.id)
+              const newMockSummary = await API.SportRadarAPI.getGameSummary(game.id)
               setGameSummaries((prev) => {
                 prev[game.id] = newMockSummary
                 return {...prev}

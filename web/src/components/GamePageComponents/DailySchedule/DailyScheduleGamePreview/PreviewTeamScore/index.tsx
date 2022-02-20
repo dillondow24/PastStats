@@ -34,7 +34,7 @@ export function PreviewTeamScore({team, isWinner, showRecord}: Props) {
         <Box sx={styles.container} style={{justifyContent: 'space-between'}}>
           <Box sx={styles.container} style={{paddingLeft: 0}}>
             <Box sx={{mr: 1, mb: -1}}>{getTeamLogo(team.id, LOGO_SIZE)}</Box>
-            <Typography>{team.alias}</Typography>
+            <Typography><b>{team.alias}</b></Typography>
           </Box>
           <Typography color={isWinner ? undefined : 'textSecondary'}><b>{getScoreOrRecord()}</b></Typography>
         </Box>

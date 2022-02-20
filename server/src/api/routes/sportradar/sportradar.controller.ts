@@ -16,7 +16,7 @@ export class SportRadarController {
     SportRadarService = new SportRadarService();
 
     /**
-     * Get a daily schedule for a year, month, and day
+     * Date, time, location, and other event details for every game taking place in the league-defined day
      *
      * @param {*} params
      * @param {*} response
@@ -34,18 +34,56 @@ export class SportRadarController {
         } 
     }
     /**
-     * Get a daily schedule for a year, month, and day
+     * Top-level boxscore information, along with detailed game stats at the team and player levels
      *
      * @param {*} params
      * @param {*} response
      * @memberof UserController
      */
     @Get('gameSummary/:gameId')
-    async geyGameSummary(@Params() params: any, @Res() res: Response) {
+    async getGameSummary(@Params() params: any, @Res() res: Response) {
         try {
             const {gameId} = params;
             const dailySchedule = await this.SportRadarService.getGameSummary(gameId)
             res.status(200).send(dailySchedule)
+        } catch (error: any) {
+            res.statusMessage = error.name
+            res.status(500).send(`Error Getting User: ${error.name}`)
+        } 
+    }
+    
+    /**
+     * Detailed team records across various views including, overall, conference, and division information
+     *
+     * @param {*} params
+     * @param {*} response
+     * @memberof UserController
+     */
+    @Get('standings/:year')
+    async getStandings(@Params() params: any, @Res() res: Response) {
+        try {
+            const {year} = params;
+            const standings = await this.SportRadarService.getStandings(year)
+            res.status(200).send(standings)
+        } catch (error: any) {
+            res.statusMessage = error.name
+            res.status(500).send(`Error Getting User: ${error.name}`)
+        } 
+    }
+
+    /**
+     * 
+     *
+     * @param {*} params
+     * @param {*} response
+     * @memberof UserController
+     */
+    @Get('teamProfile/:teamId')
+    async getTeamProfile(@Params() params: any, @Res() res: Response) {
+        try {
+            const {teamId} = params;
+            const teamProfile = await this.SportRadarService.getTeamProfile(teamId)
+            res.status(200).send(teamProfile)
         } catch (error: any) {
             res.statusMessage = error.name
             res.status(500).send(`Error Getting User: ${error.name}`)

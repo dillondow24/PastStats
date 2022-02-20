@@ -1,10 +1,12 @@
 import { Box, Grid, Typography, useTheme } from '@mui/material';
 import { useShowLiveStats } from '../../../../../contexts/showLiveStatsContext';
-import { getGameTime } from '../../../../../utils/getGameTime';
 import { getWinner } from '../../../../../utils/getWinner';
 import { useGameContext } from '../../GameContext';
 import { useStyles } from './styles';
 import FullDetailsTeamScore from './FullDetailsTeamScore';
+import { getGameTimeLabel } from '../../../../../utils/getGameTimeLabel';
+import { getGameDay } from '../../../../../utils/getGameDay';
+import MatchupGameTimeInfo from './MatchupGameTimeInfo';
 
 
 export default function Matchup() {
@@ -14,6 +16,10 @@ export default function Matchup() {
     const {gameSummary} = useGameContext();
     const {showLiveStats} = useShowLiveStats();
 
+
+    const isLive = gameSummary.status === 'inprogress'
+    const isFinal = ['completed', 'closed'].includes(gameSummary.status)
+
     return (
       <Grid container alignItems='center'>
 
@@ -22,17 +28,16 @@ export default function Matchup() {
           <Box sx={styles.section}>
             <FullDetailsTeamScore 
                 team={gameSummary.home}
-                isWinner={getWinner(gameSummary, showLiveStats) === 'home'}
+                isLoser={getWinner(gameSummary, showLiveStats) === 'away'}
                 alignScore={'right'}/>
           </Box>
         </Grid>
 
         {/* Game Time */}
         <Grid item xs={4}>
-            <Box sx={styles.section} style={{flexDirection: 'column'}}>
-              <Typography variant="h6">{'Final'}</Typography>
-              <Typography variant="body1">{getGameTime()}</Typography>
-            </Box>
+          <Box sx={styles.section}>
+            <MatchupGameTimeInfo type={isLive ? 'Live' : isFinal ? 'Final' : 'Scheduled'}/>
+          </Box>
         </Grid>
 
         {/* Away Team */}
@@ -40,7 +45,7 @@ export default function Matchup() {
           <Box sx={styles.section}>
             <FullDetailsTeamScore 
                 team={gameSummary.away} 
-                isWinner={getWinner(gameSummary, showLiveStats) === 'away'}
+                isLoser={getWinner(gameSummary, showLiveStats) === 'home'}
                 alignScore={'left'}/>
           </Box>
         </Grid>

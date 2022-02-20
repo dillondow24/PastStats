@@ -5,7 +5,7 @@ export const useStyles = (theme: Theme) => ({
         display: 'flex',
         flexDirection: 'row',
         flex: 1,
-        justifyContent: 'space-between',
+        justifyContent: 'space-evenly',
     },
     teamContainer: {
         display: 'flex',

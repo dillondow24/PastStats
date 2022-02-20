@@ -1,13 +1,9 @@
 import { Box, Divider, Typography, useTheme } from '@mui/material';
 import { useShowLiveStats } from '../../../../contexts/showLiveStatsContext';
 import { GameSummary } from '../../../../model/sportradar/models/GameSummary';
-import { GameSummaryTeamInfo } from '../../../../model/sportradar/models/GameSummary/Interfaces/GameSummaryTeamInfo';
 import { getGameDay } from '../../../../utils/getGameDay';
-import { getGameTime } from '../../../../utils/getGameTime';
 import { getGameTimeLabel } from '../../../../utils/getGameTimeLabel';
-import { getTeamLogo } from '../../../../utils/getTeamLogo';
 import { getWinner } from '../../../../utils/getWinner';
-import { toOrdinalSuffix } from '../../../../utils/toOrdinalSuffix';
 import { PreviewTeamScore } from './PreviewTeamScore';
 import { useStyles } from './styles';
 
@@ -21,26 +17,12 @@ export function DailyScheduleGamePreview({gameSummary, selected, onClick}: Props
     const theme = useTheme();
     const styles = useStyles(theme);
     const {showLiveStats} = useShowLiveStats();
-
-    const LOGO_SIZE = 40
+    
     const isLive = gameSummary.status === 'inprogress'
-    const isHalf = gameSummary.status === 'halftime'
+    const isFinal = ['completed', 'closed'].includes(gameSummary.status)
 
     const selectedStyles = {
       border: `1px solid ${theme.palette.primary.main}`,
-    }
-
-    const getTeamRecord = (teamId: string) => {
-      //TODO: make api call to get team data (including record) from sportradar and store in recoil state
-      return '(32-27)'
-    }
-
-    const getScoreOrRecord = (team: GameSummaryTeamInfo) => {
-      if (gameSummary.status === 'scheduled'){
-        return getTeamRecord(team.id );
-      } else {
-        return showLiveStats ? team.points : '-';
-      }
     }
 
     return (
@@ -49,10 +31,10 @@ export function DailyScheduleGamePreview({gameSummary, selected, onClick}: Props
         {/* Game Time */}
         <Box sx={{...styles.container, pb: 1}} style={{justifyContent: 'space-between'}}>
           <Typography variant="caption" color={isLive ? 'error' : 'textSecondary'}>
-            <b>{isLive ? 'Live' : getGameDay(gameSummary.scheduled) }</b>
+            <b>{isFinal ? '' : isLive ? 'Live' : getGameDay(gameSummary.scheduled) }</b>
           </Typography>
           <Typography variant="caption" color='textSecondary'>
-            <b>{getGameTimeLabel(isLive, isHalf, showLiveStats, gameSummary)}</b>
+            <b>{getGameTimeLabel(showLiveStats, gameSummary)}</b>
           </Typography>
         </Box>
 

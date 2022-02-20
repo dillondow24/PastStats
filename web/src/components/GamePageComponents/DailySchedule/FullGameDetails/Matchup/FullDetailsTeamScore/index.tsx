@@ -8,13 +8,13 @@ import { useGameContext } from '../../../GameContext';
 import { useStyles } from './styles';
 
 
-interface MatchupProps {
+interface Props {
   team: GameSummaryTeamInfo
-  isWinner: boolean
+  isLoser: boolean
   alignScore: 'left' | 'right'
 }
 
-export default function FullDetailsTeamScore({team, isWinner, alignScore}: MatchupProps) {
+export default function FullDetailsTeamScore({team, isLoser, alignScore}: Props) {
     const theme = useTheme();
     const styles = useStyles(theme);
 
@@ -40,7 +40,7 @@ export default function FullDetailsTeamScore({team, isWinner, alignScore}: Match
       return (
         <Typography 
           variant="h4"
-          color={isWinner ? undefined : 'textSecondary'} 
+          color={isLoser ? 'textSecondary' : undefined} 
           sx={styles.score}>
               <b>{getScoreOrRecord()}</b>
         </Typography>
@@ -52,8 +52,8 @@ export default function FullDetailsTeamScore({team, isWinner, alignScore}: Match
           <Box sx={styles.root}>
             {alignScore === 'left' && renderScore()}
             <Box sx={styles.teamContainer}>
-              <Box sx={{mr: 1, mb: -1}}>{getTeamLogo(team.id, LOGO_SIZE)}</Box>
-              <Typography>{team.alias}</Typography>
+              <Box sx={{mb: -1}}>{getTeamLogo(team.id, LOGO_SIZE)}</Box>
+              <Typography><b>{team.alias}</b></Typography>
             </Box>
             {alignScore === 'right' && renderScore()}
           </Box>

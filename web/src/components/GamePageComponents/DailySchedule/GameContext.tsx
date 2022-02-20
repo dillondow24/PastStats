@@ -1,7 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { MOCK_GAME_SUMMARY } from '../../../model/sportradar/mocks/MOCK_GAME_SUMMARY';
+import React, { createContext, useContext } from 'react';
 import { GameSummary } from '../../../model/sportradar/models/GameSummary';
-import { delay } from '../../../utils/delay';
 
 interface GameContextInterface {
   gameSummary: GameSummary;
