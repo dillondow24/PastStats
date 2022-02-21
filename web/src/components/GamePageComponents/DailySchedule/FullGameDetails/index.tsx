@@ -1,4 +1,5 @@
 import { Box, Grid, useTheme } from '@mui/material';
+import GameTimeSelector from './GameTimeSelector.ts';
 import Matchup from './Matchup';
 import PlayerStats from './PlayerStats';
 import { useStyles } from './styles';
@@ -11,6 +12,11 @@ export default function FullGameDetails() {
 
     return (
       <Grid container spacing={1}>
+        <Grid item xs={12}>
+          <Box sx={styles.section}>
+            <GameTimeSelector />
+          </Box>
+        </Grid>
         <Grid item xs={12}>
           <Box sx={styles.section}>
             <Matchup/>
