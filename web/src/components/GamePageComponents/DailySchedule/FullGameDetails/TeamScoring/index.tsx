@@ -1,4 +1,4 @@
-import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, useTheme, Box } from '@mui/material';
+import { Typography, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, useTheme, Box } from '@mui/material';
 import { useState } from 'react';
 import { useShowLiveStats } from '../../../../../contexts/showLiveStatsContext';
 import { GameSummaryTeamInfo } from '../../../../../model/sportradar/models/GameSummary/Interfaces/GameSummaryTeamInfo';
@@ -60,7 +60,7 @@ export default function TeamScoring() {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Team</TableCell>
+              <TableCell><Typography variant='h5'><b>Scoring</b></Typography></TableCell>
               {gameSummary.home.scoring.map((score, index) => (
                 <TableCell align="center" sx={styles.tableCell}><b>{toOrdinalSuffix(score.number)}</b></TableCell>
               ))}

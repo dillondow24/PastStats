@@ -53,7 +53,7 @@ export default function StatisticComparison({
             variant='determinate'
             value={homePercentage}
             sx={{
-                height: 8,
+                height: 5,
                 borderRadius: 5,
                 [`&.${linearProgressClasses.colorPrimary}`]: {
                   backgroundColor: awayColor,

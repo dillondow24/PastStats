@@ -21,11 +21,11 @@ export default function TeamStats() {
       'Field Goal %',
       '3 Point %',
       'Free Throw %',
-      'Turnovers',
-      'Assists',
       'Rebounds',
+      'Assists',
       'Steals',
       'Blocks',
+      'Turnovers',
       'Total Fouls',
     ]
 

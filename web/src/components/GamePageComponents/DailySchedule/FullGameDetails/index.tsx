@@ -1,5 +1,4 @@
 import { Box, Grid, useTheme } from '@mui/material';
-import GameDetails from './GameDetails';
 import Matchup from './Matchup';
 import PlayerStats from './PlayerStats';
 import { useStyles } from './styles';
@@ -30,11 +29,6 @@ export default function FullGameDetails() {
         <Grid item xs={12}>
           <Box sx={styles.section}>
             <TeamStats />
-          </Box>
-        </Grid>
-        <Grid item xs={12}>
-          <Box sx={styles.section}>
-            <GameDetails />
           </Box>
         </Grid>
       </Grid>

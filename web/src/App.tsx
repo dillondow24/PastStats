@@ -27,7 +27,7 @@ function App() {
 
         <Box sx={{display: 'flex', flex: 1}}>
           <Container maxWidth='md'>
-            <Box sx={{ mt: '70px', pb: 5}}>
+            <Box sx={{ mt: '70px', pb: 2}}>
               <Routes>
                 <Route path="/" element={<Games />} />
                 <Route path="Games" element={<Games />} />
@@ -37,6 +37,10 @@ function App() {
               </Routes>
             </Box>
           </Container>
+        </Box>
+
+        <Box sx={{display: 'flex'}}>
+          <Footer/>
         </Box>
       </Box>
     </React.Fragment>

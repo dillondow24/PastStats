@@ -21,5 +21,6 @@ export const useStyles = (theme: Theme) => ({
     },
     tableCell: {
         p: 0,
+        minWidth: 40
     },
 }) as {[style: string]: SxProps<Theme>};
