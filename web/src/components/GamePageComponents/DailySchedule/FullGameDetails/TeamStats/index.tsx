@@ -14,7 +14,7 @@ export default function TeamStats() {
     const theme = useTheme();
     const styles = useStyles(theme);
 
-    const {gameSummary, isScheduled} = useGameContext();
+    const {gameSummary, isScheduled, showPastStats, pastStats} = useGameContext();
     const {showLiveStats} = useShowLiveStats();
 
     const statisticalCategories = [
@@ -30,12 +30,10 @@ export default function TeamStats() {
     ]
 
     const LOGO_SIZE = 50
-    const homeStats = gameSummary.home.statistics;
-    const awayStats = gameSummary.away.statistics;
+    const homeStats = showPastStats ? pastStats?.home.statistics : gameSummary.home.statistics;
+    const awayStats = showPastStats ? pastStats?.away.statistics : gameSummary.away.statistics;
     const homeColor = getTeamColor(gameSummary.home.id)
     const awayColor = getTeamColor(gameSummary.away.id)
-
-
 
     const getCategoriesStats = (category: string) => {
       let homeValue = 1
@@ -44,30 +42,30 @@ export default function TeamStats() {
       let awayValue = 1
       let awayLabel =  '-'
       let awaySecondaryLabel = undefined  
-      if(!showLiveStats || isScheduled) return {homeLabel, homeValue, homeSecondaryLabel, awayLabel, awayValue, awaySecondaryLabel}
+      if(!showLiveStats || isScheduled || !homeStats || !awayStats) return {homeLabel, homeValue, homeSecondaryLabel, awayLabel, awayValue, awaySecondaryLabel}
 
       switch (category){
         case 'Field Goal %':
-          homeValue = Math.round(homeStats.field_goals_pct)
+          homeValue = Math.round(homeStats.field_goals_att === 0 ? 0 : (homeStats.field_goals_made / homeStats.field_goals_att) * 100)
           homeLabel =  homeStats.field_goals_att === 0 ? '-' : `${homeValue}%`
           homeSecondaryLabel =  `(${homeStats.field_goals_made}/${homeStats.field_goals_att})`
-          awayValue = Math.round(awayStats.field_goals_pct)
+          awayValue = Math.round(awayStats.field_goals_att === 0 ? 0 : (awayStats.field_goals_made / awayStats.field_goals_att) * 100)
           awayLabel =  homeStats.field_goals_att === 0 ? '-' : `${awayValue}%`
           awaySecondaryLabel =  `(${awayStats.field_goals_made}/${awayStats.field_goals_att})`
           return {homeLabel, homeValue, homeSecondaryLabel, awayLabel, awayValue, awaySecondaryLabel}
         case '3 Point %':
-          homeValue = Math.round(homeStats.three_points_pct)
+          homeValue = Math.round(homeStats.three_points_att === 0 ? 0 : (homeStats.three_points_made / homeStats.three_points_att) * 100)
           homeLabel =  homeStats.three_points_att === 0 ? '-' : `${homeValue}%`
           homeSecondaryLabel =  `(${homeStats.three_points_made}/${homeStats.three_points_att})`
-          awayValue = Math.round((awayStats.three_points_made / awayStats.three_points_att) * 100)
+          awayValue = Math.round(awayStats.three_points_att === 0 ? 0 : (awayStats.three_points_made / awayStats.three_points_att) * 100)
           awayLabel =  homeStats.three_points_att === 0 ? '-' : `${awayValue}%`
           awaySecondaryLabel =  `(${awayStats.three_points_made}/${awayStats.three_points_att})`
           return {homeLabel, homeValue, homeSecondaryLabel, awayLabel, awayValue, awaySecondaryLabel}
         case 'Free Throw %':
-          homeValue = Math.round(homeStats.free_throws_pct)
+          homeValue = Math.round(homeStats.free_throws_att === 0 ? 0 : (homeStats.free_throws_made / homeStats.free_throws_att) * 100)
           homeLabel =  homeStats.free_throws_att === 0 ? '-' : `${homeValue}%`
           homeSecondaryLabel =  `(${homeStats.free_throws_made}/${homeStats.free_throws_att})`
-          awayValue = Math.round((awayStats.free_throws_made / awayStats.free_throws_att) * 100)
+          awayValue = Math.round(awayStats.free_throws_att === 0 ? 0 : (awayStats.free_throws_made / awayStats.free_throws_att) * 100)
           awayLabel =  homeStats.free_throws_att === 0 ? '-' : `${awayValue}%`
           awaySecondaryLabel =  `(${awayStats.free_throws_made}/${awayStats.free_throws_att})`
           return {homeLabel, homeValue, homeSecondaryLabel, awayLabel, awayValue, awaySecondaryLabel}

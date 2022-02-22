@@ -50,13 +50,12 @@ export default function HeaderTabs() {
                     const selected = page === getCurrentPage()
                     return (
                         <Button 
-                            variant={selected ? 'contained' : 'text'} 
+                            // variant={selected ? 'contained' : 'text'} 
                             color={selected ? 'primary' : 'inherit'} 
                             onClick={() => navigate(page)} 
                             key={index}
                             sx={styles.tabButton}>
-                            <Typography>{page}</Typography>
-
+                            <b><Typography>{page}</Typography></b>
                         </Button>
                     )
                 })}

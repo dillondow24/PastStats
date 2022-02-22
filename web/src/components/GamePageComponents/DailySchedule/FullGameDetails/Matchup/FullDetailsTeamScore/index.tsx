@@ -10,15 +10,16 @@ import { useStyles } from './styles';
 
 interface Props {
   team: GameSummaryTeamInfo
+  pastStatsScore: string | number
   isLoser: boolean
   alignScore: 'left' | 'right'
 }
 
-export default function FullDetailsTeamScore({team, isLoser, alignScore}: Props) {
+export default function FullDetailsTeamScore({team, pastStatsScore, isLoser, alignScore}: Props) {
     const theme = useTheme();
     const styles = useStyles(theme);
 
-    const {gameSummary} = useGameContext();
+    const {gameSummary, showPastStats, pastStats} = useGameContext();
     const {showLiveStats} = useShowLiveStats();
 
     const LOGO_SIZE = 80
@@ -32,7 +33,7 @@ export default function FullDetailsTeamScore({team, isLoser, alignScore}: Props)
       if (gameSummary.status === 'scheduled'){
         return '-';
       } else {
-        return showLiveStats ? team.points : '-';
+        return showPastStats ? pastStatsScore : showLiveStats ? team.points : '-';
       }
     }
 
@@ -40,7 +41,7 @@ export default function FullDetailsTeamScore({team, isLoser, alignScore}: Props)
       return (
         <Typography 
           variant="h4"
-          color={isLoser ? 'textSecondary' : undefined} 
+          color={isLoser && showLiveStats && !showPastStats ? 'textSecondary' : undefined} 
           sx={styles.score}>
               <b>{getScoreOrRecord()}</b>
         </Typography>

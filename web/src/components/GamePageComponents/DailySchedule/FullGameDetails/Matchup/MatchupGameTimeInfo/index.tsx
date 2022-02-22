@@ -14,7 +14,7 @@ export default function MatchupGameTimeInfo() {
     const theme = useTheme();
     const styles = useStyles(theme);
 
-    const {gameSummary, dailyScheduleGame, isLive, isFinal} = useGameContext();
+    const {gameSummary, showPastStats, pastStats, dailyScheduleGame, isLive, isFinal} = useGameContext();
     const {showLiveStats} = useShowLiveStats();
 
     const getBroadcast = () => {
@@ -24,11 +24,21 @@ export default function MatchupGameTimeInfo() {
       return broadcast.network
     }
 
+    if(showPastStats) {
+      return (
+        <Box sx={styles.section} style={{flexDirection: 'column'}}>
+          <Typography variant="body1" color='primary'><b>{'Past Stats'}</b></Typography>
+          <Typography variant="h5"><b>{pastStats ? pastStats.clock : '--:--'}</b></Typography>
+          <Typography variant="subtitle1">{pastStats ? toOrdinalSuffix(pastStats.quarter) : '--:--'}</Typography>
+        </Box>
+      )
+    }
+
     if(isLive){
       return (
         <Box sx={styles.section} style={{flexDirection: 'column'}}>
           <Typography variant="body1" color='error'><b>{'Live'}</b></Typography>
-          <Typography variant="h5"><b>{gameSummary.clock}</b></Typography>
+          <Typography variant="h5"><b>{showLiveStats ? gameSummary.clock : '--:--'}</b></Typography>
           <Typography variant="subtitle1">{toOrdinalSuffix(gameSummary.quarter)}</Typography>
         </Box>
       )

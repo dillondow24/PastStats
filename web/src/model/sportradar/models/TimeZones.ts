@@ -1,4 +1,4 @@
-export interface DailyScheduleTimeZones {
+export interface TimeZones {
     venue: string;
     home: string;
     away: string;

@@ -1,7 +1,7 @@
 import { Broadcast } from "../../Broadcast";
 import { Venue } from "../../Venue";
 import { DailyScheduleTeamInfo } from "./DailyScheduleTeamInfo";
-import { DailyScheduleTimeZones } from "./DailyScheduleTimeZones";
+import { TimeZones } from "../../TimeZones";
 
 export interface DailyScheduleGame {
     id: string;
@@ -13,7 +13,7 @@ export interface DailyScheduleGame {
     track_on_court: boolean;
     sr_id: string;
     reference: string;
-    time_zones: DailyScheduleTimeZones;
+    time_zones: TimeZones;
     venue: Venue;
     broadcasts: Broadcast[];
     home: DailyScheduleTeamInfo;

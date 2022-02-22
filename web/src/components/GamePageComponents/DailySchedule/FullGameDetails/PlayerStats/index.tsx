@@ -5,7 +5,8 @@ import { useGameContext } from '../../GameContext';
 import { useStyles } from '../styles';
 import BoxScore from './BoxScore';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { GameSummaryPlayer } from '../../../../../model/sportradar/models/GameSummary/Interfaces/GameSummaryPlayer';
+import { GameSummaryPlayer, GameSummaryPlayersStatistics } from '../../../../../model/sportradar/models/GameSummary/Interfaces/GameSummaryPlayer';
+import { PastStatsPlayerStatistics } from '../../../../../model/sportradar/models/PastStatsStatistics/interfaces/PastStatsPlayerStatistics';
 
 
 
@@ -13,7 +14,7 @@ export default function PlayerStats() {
     const theme = useTheme();
     const styles = useStyles(theme);
 
-    const {gameSummary} = useGameContext();
+    const {gameSummary, showPastStats, pastStats} = useGameContext();
     const [value, setValue] = useState(0);
     const [expanded, setExpanded] = useState(false);
 
@@ -22,18 +23,28 @@ export default function PlayerStats() {
     };
 
 
-    const convertMinutesToNumber = (player: GameSummaryPlayer) => {
-        const [mins, secs] = player.statistics.minutes.split(':');
+    const convertMinutesToNumber = (player: GameSummaryPlayersStatistics | PastStatsPlayerStatistics) => {
+        const [mins, secs] = player.minutes.split(':');
         return Number(mins + secs)
     }
 
-    const stats = [
+    const past = [
       {
-        starters: gameSummary.home.players.filter(player => player.starter).sort((a, b) => convertMinutesToNumber(b) - convertMinutesToNumber(a)),
-        bench: gameSummary.home.players.filter(player => !player.starter).sort((a, b) => convertMinutesToNumber(b) - convertMinutesToNumber(a))
+        starters: pastStats ? pastStats.home.players.filter(player => player.starter).sort((a, b) => convertMinutesToNumber(b) - convertMinutesToNumber(a)) : [],
+        bench: pastStats ? pastStats.home.players.filter(player => !player.starter).sort((a, b) => convertMinutesToNumber(b) - convertMinutesToNumber(a)) : []
+      }, {
+        starters: pastStats ? pastStats.away.players.filter(player => player.starter).sort((a, b) => convertMinutesToNumber(b) - convertMinutesToNumber(a)) : [],
+        bench: pastStats ? pastStats.away.players.filter(player => !player.starter).sort((a, b) => convertMinutesToNumber(b) - convertMinutesToNumber(a)) : []
+      }
+    ]
+
+    const live = [
+      {
+        starters: gameSummary.home.players.filter(player => player.starter).sort((a, b) => convertMinutesToNumber(b.statistics) - convertMinutesToNumber(a.statistics)),
+        bench: gameSummary.home.players.filter(player => !player.starter).sort((a, b) => convertMinutesToNumber(b.statistics) - convertMinutesToNumber(a.statistics))
       },{
-        starters: gameSummary.away.players.filter(player => player.starter).sort((a, b) => convertMinutesToNumber(b) - convertMinutesToNumber(a)),
-        bench: gameSummary.away.players.filter(player => !player.starter).sort((a, b) => convertMinutesToNumber(b) - convertMinutesToNumber(a)),
+        starters: gameSummary.away.players.filter(player => player.starter).sort((a, b) => convertMinutesToNumber(b.statistics) - convertMinutesToNumber(a.statistics)),
+        bench: gameSummary.away.players.filter(player => !player.starter).sort((a, b) => convertMinutesToNumber(b.statistics) - convertMinutesToNumber(a.statistics)),
       },
     ]
 
@@ -52,7 +63,7 @@ export default function PlayerStats() {
       </Box>
 
 
-      {stats.map(({starters, bench}, index) => (
+      {(showPastStats ? past : live).map(({starters, bench}, index) => (
         <TabPanel value={value} index={index}>
           <BoxScore playerType={'Starters'} players={starters}/>
           <Accordion sx={{boxShadow: 'none'}}>

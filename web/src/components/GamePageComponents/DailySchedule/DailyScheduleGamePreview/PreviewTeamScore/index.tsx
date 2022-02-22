@@ -2,6 +2,7 @@ import { Box, Typography, useTheme } from '@mui/material';
 import { useShowLiveStats } from '../../../../../contexts/showLiveStatsContext';
 import { GameSummaryTeamInfo } from '../../../../../model/sportradar/models/GameSummary/Interfaces/GameSummaryTeamInfo';
 import { getTeamLogo } from '../../../../../utils/getTeamLogo';
+import { useGameContext } from '../../GameContext';
 import { useStyles } from './styles';
 
 interface Props {
@@ -36,7 +37,7 @@ export function PreviewTeamScore({team, isLoser, showRecord}: Props) {
             <Box sx={{mr: 1, mb: -1}}>{getTeamLogo(team.id, LOGO_SIZE)}</Box>
             <Typography><b>{team.alias}</b></Typography>
           </Box>
-          <Typography color={isLoser ? 'textSecondary' : undefined}><b>{getScoreOrRecord()}</b></Typography>
+          <Typography color={isLoser && showLiveStats ? 'textSecondary' : undefined}><b>{getScoreOrRecord()}</b></Typography>
         </Box>
     );
 }

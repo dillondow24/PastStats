@@ -13,7 +13,7 @@ export default function Matchup() {
     const theme = useTheme();
     const styles = useStyles(theme);
 
-    const {gameSummary} = useGameContext();
+    const {gameSummary, pastStats} = useGameContext();
     const {showLiveStats} = useShowLiveStats();
 
     return (
@@ -24,6 +24,7 @@ export default function Matchup() {
           <Box sx={styles.section}>
             <FullDetailsTeamScore 
                 team={gameSummary.home}
+                pastStatsScore={pastStats ? pastStats.homeScore : '-'}
                 isLoser={getWinner(gameSummary, showLiveStats) === 'away'}
                 alignScore={'right'}/>
           </Box>
@@ -41,6 +42,7 @@ export default function Matchup() {
           <Box sx={styles.section}>
             <FullDetailsTeamScore 
                 team={gameSummary.away} 
+                pastStatsScore={pastStats ? pastStats.awayScore : '-'}
                 isLoser={getWinner(gameSummary, showLiveStats) === 'home'}
                 alignScore={'left'}/>
           </Box>

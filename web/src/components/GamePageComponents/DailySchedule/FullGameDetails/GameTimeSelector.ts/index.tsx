@@ -5,12 +5,14 @@ import NumberSelector from './NumberSelector';
 import QuarterSelector from './QuarterSelector';
 import { useStyles } from './styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useGameContext } from '../../GameContext';
+import StatTypeSelector from './StatTypeSelectorTabs';
 
 export default function GameTimeSelector() {
     const theme = useTheme();
     const styles = useStyles(theme);
 
-    const [expanded, setExpanded] = useState(false);
+    const { getPastStats, loadingPastStats } = useGameContext();
 
     const [minuteTens, setMinuteTens] = useState(1);
     const [minuteOnes, setMinuteOnes] = useState(4);
@@ -63,17 +65,13 @@ export default function GameTimeSelector() {
 
 
     const handleSetGameTime = () => {
-      console.log(`${minuteTens}${minuteOnes}:${secondTens}${secondOnes} ${quarter}`)
+      getPastStats(`${minuteTens}${minuteOnes}`,`${secondTens}${secondOnes}`, quarter)
     }
 
     return (
       <Accordion sx={{boxShadow: 'none'}}>
-        <AccordionSummary 
-          expandIcon={<ExpandMoreIcon />} 
-          sx={{backgroundColor: theme.palette.background.paper}}
-          onClick={() => {setExpanded(!expanded)}}
-          >
-          <Typography>{expanded ? 'Close' : 'Select Game Time'}</Typography>
+        <AccordionSummary sx={{backgroundColor: theme.palette.background.paper}}>
+          <StatTypeSelector />
         </AccordionSummary>
         <AccordionDetails sx={{backgroundColor: theme.palette.background.paper, p: 0}}>
           <Box sx={{
@@ -108,8 +106,14 @@ export default function GameTimeSelector() {
               </Box>
 
               <Box sx={{display: 'flex', justifyContent: 'center', m: 2}}>
-                <Button variant={'contained'} onClick={handleSetGameTime}>
-                  Set Game Time
+                <Button 
+                  variant={'contained'} 
+                  color={'secondary'} 
+                  onClick={handleSetGameTime} 
+                  disabled={loadingPastStats}
+                  sx={{width: 155}}
+                  >
+                  {loadingPastStats ? 'Loading...' : 'Get Past Stats'}
                 </Button>
               </Box>
             </Box>

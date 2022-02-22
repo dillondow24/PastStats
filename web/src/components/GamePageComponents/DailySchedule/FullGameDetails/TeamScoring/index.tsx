@@ -1,6 +1,7 @@
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, useTheme } from '@mui/material';
 import { useShowLiveStats } from '../../../../../contexts/showLiveStatsContext';
 import { GameSummaryTeamInfo } from '../../../../../model/sportradar/models/GameSummary/Interfaces/GameSummaryTeamInfo';
+import { PastStatsTeamInfo } from '../../../../../model/sportradar/models/PastStatsStatistics/interfaces/PastStatsTeamInfo';
 import { getTeamLogo } from '../../../../../utils/getTeamLogo';
 import { toOrdinalSuffix } from '../../../../../utils/toOrdinalSuffix';
 import { useGameContext } from '../../GameContext';
@@ -11,13 +12,14 @@ export default function TeamScoring() {
     const theme = useTheme();
     const styles = useStyles(theme);
 
-    const {gameSummary, isScheduled} = useGameContext();
+    const {gameSummary, isScheduled, showPastStats, pastStats} = useGameContext();
     const {showLiveStats} = useShowLiveStats();
 
     const LOGO_SIZE = 40
-    const hideScore = !showLiveStats || isScheduled
+    const hideScore = (!showLiveStats || isScheduled) && !showPastStats
 
-    const renderTeamRow = (team: GameSummaryTeamInfo) => {
+    const renderTeamRow = (team?: GameSummaryTeamInfo | PastStatsTeamInfo) => {
+      if(!team) return
       return (
         <>
           <TableCell component="th" scope="row">
@@ -48,10 +50,10 @@ export default function TeamScoring() {
           </TableHead>
           <TableBody>
             <TableRow>
-              {renderTeamRow(gameSummary.home)}
+              {renderTeamRow(showPastStats ? pastStats?.home : gameSummary.home)}
             </TableRow>
             <TableRow>
-              {renderTeamRow(gameSummary.away)}
+              {renderTeamRow(showPastStats ? pastStats?.away : gameSummary.away)}
             </TableRow>
           </TableBody>
         </Table>

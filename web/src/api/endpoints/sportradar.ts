@@ -1,5 +1,6 @@
 import { DailySchedule } from "../../model/sportradar/models/DailySchedule";
 import { GameSummary } from "../../model/sportradar/models/GameSummary";
+import { PastStatsStatistics } from "../../model/sportradar/models/PastStatsStatistics";
 import { Standings } from "../../model/sportradar/models/Standings";
 import { TeamProfile } from "../../model/sportradar/models/TeamProfile";
 
@@ -38,6 +39,15 @@ export const SportRadarAPI = {
         const response = await fetch(`${BASE_URL}/teamProfile/${teamId}`);
         if(response.status === 200) {
             return await response.json() as TeamProfile;
+        } else {
+            throw new Error(response.statusText)
+        }   
+    },
+
+    getPastStats: async (gameId: string, minutes: string, seconds: string, quarter: number) => {
+        const response = await fetch(`${BASE_URL}/pastStats/${gameId}/${minutes}/${seconds}/${quarter}`);
+        if(response.status === 200) {
+            return await response.json() as PastStatsStatistics;
         } else {
             throw new Error(response.statusText)
         }   

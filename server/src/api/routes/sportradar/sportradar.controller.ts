@@ -30,7 +30,7 @@ export class SportRadarController {
             res.status(200).send(dailySchedule)
         } catch (error: any) {
             res.statusMessage = error.name
-            res.status(500).send(`Error Getting User: ${error.name}`)
+            res.status(500).send(`Error Getting Daily Schedule: ${error.name}`)
         } 
     }
     /**
@@ -48,7 +48,7 @@ export class SportRadarController {
             res.status(200).send(dailySchedule)
         } catch (error: any) {
             res.statusMessage = error.name
-            res.status(500).send(`Error Getting User: ${error.name}`)
+            res.status(500).send(`Error Getting Game Summary: ${error.name}`)
         } 
     }
     
@@ -67,7 +67,7 @@ export class SportRadarController {
             res.status(200).send(standings)
         } catch (error: any) {
             res.statusMessage = error.name
-            res.status(500).send(`Error Getting User: ${error.name}`)
+            res.status(500).send(`Error Getting Standings: ${error.name}`)
         } 
     }
 
@@ -86,7 +86,27 @@ export class SportRadarController {
             res.status(200).send(teamProfile)
         } catch (error: any) {
             res.statusMessage = error.name
-            res.status(500).send(`Error Getting User: ${error.name}`)
+            res.status(500).send(`Error Getting Team Profile: ${error.name}`)
+        } 
+    }
+
+    /**
+     * read playByPlay data of game with the given gameId
+     * return relevant stats at the game time selected
+     *
+     * @param {*} params
+     * @param {*} response
+     * @memberof UserController
+     */
+    @Get('pastStats/:gameId/:minutes/:seconds/:quarter')
+    async getPastStats(@Params() params: any, @Res() res: Response) {
+        try {
+            const {gameId, minutes, seconds, quarter} = params;
+            const PastStats = await this.SportRadarService.getPastStats(gameId, minutes, seconds, quarter)
+            res.status(200).send(PastStats)
+        } catch (error: any) {
+            res.statusMessage = error.name
+            res.status(500).send(`Error Getting Past Stats: ${error.name}`)
         } 
     }
 }

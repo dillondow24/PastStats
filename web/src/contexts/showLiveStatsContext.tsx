@@ -5,12 +5,12 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
 interface ShowLiveStatsInterface {
-    showLiveStats: boolean;
+    showLiveStats: boolean
 }
 
 
 const ShowLiveStats = createContext<ShowLiveStatsInterface>({
-    showLiveStats: false,
+    showLiveStats: false
 });
 export const useShowLiveStats = () => useContext(ShowLiveStats);
 
@@ -22,7 +22,7 @@ export const ShowLiveStatsProvider = ({children}: any) => {
   return (
     <ShowLiveStats.Provider value={{showLiveStats}}>
       {children}
-      <Tooltip title="Toggle Visibility of Game Stats">
+      <Tooltip title="Toggle Visibility of Stats">
         <Fab 
           color={showLiveStats ? 'secondary' : 'primary'} 
           sx={{position: 'fixed', bottom: theme.spacing(5), right: {xs: theme.spacing(5), sm: theme.spacing(15)}}} 
